@@ -921,6 +921,16 @@ require('lazy').setup({
     'scottmckendry/cyberdream.nvim',
     lazy = false,
     priority = 1000,
+    config = function()
+      require('cyberdream').setup {
+        transparent = true,
+      }
+
+      --setup must be called before loading
+      -- vim.cmd.colorscheme 'cyberdream'
+      -- You can configure highlights by doing something like:
+      -- vim.cmd.hi 'Comment gui=none'
+    end,
   },
 
   -- Catppuccin
@@ -1118,6 +1128,50 @@ require('lazy').setup({
 
     init = function()
       vim.keymap.set('n', '<leader>fP', '<CMD>Prettier<CR>', { desc = 'Format with Prettier' })
+    end,
+  },
+
+  -- HARPOON
+  {
+    'ThePrimeagen/harpoon',
+    branch = 'harpoon2',
+    opts = {
+      menu = {
+        width = vim.api.nvim_win_get_width(0) - 4,
+      },
+      settings = {
+        save_on_toggle = true,
+      },
+    },
+    keys = function()
+      local keys = {
+        {
+          '<leader>H',
+          function()
+            require('harpoon'):list():add()
+          end,
+          desc = 'Harpoon File',
+        },
+        {
+          '<leader>h',
+          function()
+            local harpoon = require 'harpoon'
+            harpoon.ui:toggle_quick_menu(harpoon:list())
+          end,
+          desc = 'Harpoon Quick Menu',
+        },
+      }
+
+      for i = 1, 5 do
+        table.insert(keys, {
+          '<leader>' .. i,
+          function()
+            require('harpoon'):list():select(i)
+          end,
+          desc = 'Harpoon to File ' .. i,
+        })
+      end
+      return keys
     end,
   },
 
