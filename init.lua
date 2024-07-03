@@ -191,8 +191,8 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- CUSTOM KEYMAPS
-vim.keymap.set('n', '<C-d>', '<C-d>zz')
-vim.keymap.set('n', '<C-u>', '<C-u>zz')
+-- vim.keymap.set('n', '<C-d>', '<C-d>zz')
+-- vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- greatest remap ever
 vim.keymap.set('x', '<leader>p', [["_dP]])
@@ -294,15 +294,27 @@ require('lazy').setup({
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
-    opts = {
-      signs = {
-        add = { text = '+' },
-        change = { text = '~' },
-        delete = { text = '_' },
-        topdelete = { text = '‾' },
-        changedelete = { text = '~' },
-      },
-    },
+    config = function()
+      require('gitsigns').setup {
+
+        signs = {
+          add = { text = '+' },
+          change = { text = '~' },
+          delete = { text = '_' },
+          topdelete = { text = '‾' },
+          changedelete = { text = '~' },
+        },
+        current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+        current_line_blame_opts = {
+          virt_text = true,
+          virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+          delay = 100,
+          ignore_whitespace = false,
+          virt_text_priority = 100,
+        },
+      }
+      vim.keymap.set('n', '<leader>tb', '<CMD>Gitsigns toggle_current_line_blame<CR>', { desc = '[T]oggle [G]it Open' })
+    end,
   },
 
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
@@ -340,6 +352,28 @@ require('lazy').setup({
       require('which-key').register({
         ['<leader>h'] = { 'Git [H]unk' },
       }, { mode = 'v' })
+    end,
+  },
+
+  -- TS Context
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    event = 'BufRead',
+    config = function()
+      require('treesitter-context').setup {
+        enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+        min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        line_numbers = true,
+        multiline_threshold = 5, -- Maximum number of lines to show for a single context
+        trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+        mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
+        -- Separator between context and content. Should be a single character string, like '-'.
+        -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+        separator = nil,
+        zindex = 20, -- The Z-index of the context window
+        on_attach = nil,
+      }
     end,
   },
 
@@ -396,8 +430,37 @@ require('lazy').setup({
 
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
+
+      local function filenameFirst(_, path)
+        local tail = vim.fs.basename(path)
+        local parent = vim.fs.dirname(path)
+        if parent == '.' then
+          return tail
+        end
+        return string.format('%s\t\t%s', tail, parent)
+      end
+
       require('telescope').setup {
         -- You can put your default mappings / updates / etc. in here
+        initial_mode = 'insert',
+        selection_strategy = 'reset',
+        path_display = { 'smart' },
+        color_devicons = true,
+        set_env = { ['COLORTERM'] = 'truecolor' },
+        sorting_strategy = nil,
+        layout_strategy = nil,
+        layout_config = {},
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          -- "--hidden",
+          '--glob=!.git/',
+        },
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
@@ -417,10 +480,67 @@ require('lazy').setup({
             treesitter = false,
           },
         },
-        -- pickers = {}
+        pickers = {
+          live_grep = {
+            theme = 'dropdown',
+          },
+
+          grep_string = {
+            theme = 'dropdown',
+          },
+
+          find_files = {
+            theme = 'dropdown',
+            previewer = false,
+            path_display = filenameFirst,
+          },
+
+          buffers = {
+            theme = 'dropdown',
+            previewer = false,
+          },
+
+          colorscheme = {
+            enable_preview = true,
+          },
+
+          lsp_dynamic_workspace_symbols = {
+            theme = 'dropdown',
+          },
+
+          lsp_document_symbols = {
+            theme = 'dropdown',
+          },
+
+          lsp_references = {
+            theme = 'dropdown',
+            initial_mode = 'normal',
+          },
+
+          lsp_definitions = {
+            theme = 'dropdown',
+            initial_mode = 'normal',
+          },
+
+          lsp_declarations = {
+            theme = 'dropdown',
+            initial_mode = 'normal',
+          },
+
+          lsp_implementations = {
+            theme = 'dropdown',
+            initial_mode = 'normal',
+          },
+        },
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
+          },
+          fzf = {
+            fuzzy = true, -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
           },
         },
       }
@@ -1058,7 +1178,7 @@ require('lazy').setup({
     },
     config = function()
       require('CopilotChat').setup()
-      vim.keymap.set('n', '<leader>cC', '<CMD>CopilotChatToggle<CR>', { desc = 'Toggle Copilot Chat' })
+      vim.keymap.set('n', '<leader>tc', '<CMD>CopilotChatToggle<CR>', { desc = '[T]oggle [C]opilot Chat' })
     end,
     -- See Commands section for default commands if you want to lazy load on them
   },
@@ -1066,7 +1186,7 @@ require('lazy').setup({
   {
     'kdheepak/lazygit.nvim',
     config = function()
-      vim.keymap.set('n', '<leader>gG', '<CMD>LazyGit<CR>', { desc = 'LazyGit Open' })
+      vim.keymap.set('n', '<leader>tg', '<CMD>LazyGit<CR>', { desc = '[T]oggle LazyGit Open' })
     end,
   },
   {
@@ -1075,8 +1195,8 @@ require('lazy').setup({
       use_icons = false,
     },
     config = function()
-      vim.keymap.set('n', '<leader>gD', '<CMD>DiffviewOpen<CR>', { desc = '[D]iff [G]it Open' })
-      vim.keymap.set('n', '<leader>gX', '<CMD>DiffviewClose<CR>', { desc = '[D]iff [G]it Close' })
+      vim.keymap.set('n', '<leader>td', '<CMD>DiffviewOpen<CR>', { desc = '[T]oggle [G]it Open' })
+      vim.keymap.set('n', '<leader>tx', '<CMD>DiffviewClose<CR>', { desc = '[T]oggle [G]it Close' })
     end,
   },
 
@@ -1175,6 +1295,37 @@ require('lazy').setup({
     end,
   },
 
+  -- NEOSCROLL
+  {
+    'karb94/neoscroll.nvim',
+    config = function()
+      require('neoscroll').setup {
+        mappings = { -- Keys to be mapped to their corresponding default scrolling animation
+          '<C-u>',
+          '<C-d>',
+          '<C-b>',
+          '<C-f>',
+          '<C-y>',
+          '<C-e>',
+          'zt',
+          'zz',
+          'zb',
+        },
+        hide_cursor = true, -- Hide cursor while scrolling
+        stop_eof = true, -- Stop at <EOF> when scrolling downwards
+        respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
+        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
+        easing = 'linear', -- Default easing function
+        -- pre_hook = nil, -- Function to run before the scrolling animation starts
+        post_hook = nil, -- Function to run after the scrolling animation ends
+        pre_hook = function(_)
+          -- Center before scrolling
+          vim.cmd 'normal! zz'
+        end,
+        performance_mode = false,
+      }
+    end,
+  },
   -- OIL
   {
     'stevearc/oil.nvim',
