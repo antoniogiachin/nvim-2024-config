@@ -225,6 +225,13 @@ vim.opt.undofile = true
 vim.opt.colorcolumn = '80'
 vim.o.guicursor = 'n-v-c-sm-i-ci-ve:block,r-cr-o:hor20'
 
+vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
+
 -- TESTING CUSTOM OPTIONS
 vim.opt.numberwidth = 2
 vim.opt.laststatus = 2
@@ -1006,16 +1013,30 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
-    -- priority = 1000, -- Make sure to load this before all the other start plugins.
-    -- init = function()
-    --   -- Load the colorscheme here.
-    --   -- Like many other themes, this one has different styles, and you could load
-    --   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-    --   vim.cmd.colorscheme 'tokyonight-night'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
+    priority = 1000, -- Make sure to load this before all the other start plugins.
+    opts = {
+      transparent = true,
+      styles = {
+        -- Style to be applied to different syntax groups
+        -- Value is any valid attr-list value for `:help nvim_set_hl`
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+        -- Background styles. Can be "dark", "transparent" or "normal"
+        sidebars = 'transparent', -- style for sidebars, see below
+        floats = 'transparent', -- style for floating windows
+      },
+    },
+    init = function()
+      -- Load the colorscheme here.
+      -- Like many other themes, this one has different styles, and you could load
+      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      vim.cmd.colorscheme 'tokyonight-night'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
+    end,
   },
 
   -- COLORSCHEMES
@@ -1057,54 +1078,90 @@ require('lazy').setup({
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    priority = 1000,
-    config = function()
-      require('catppuccin').setup {
-        flavour = 'mocha', -- latte, frappe, macchiato, mocha
-        term_colors = true,
-        transparent_background = true,
-        no_italic = false,
-        no_bold = false,
-        styles = {
-          comments = {},
-          conditionals = {},
-          loops = {},
-          functions = {},
-          keywords = {},
-          strings = {},
-          variables = {},
-          numbers = {},
-          booleans = {},
-          properties = {},
-          types = {},
-        },
-        color_overrides = {
-          mocha = {
-            base = '#000000',
-            mantle = '#000000',
-            crust = '#000000',
-          },
-        },
-        highlight_overrides = {
-          mocha = function(C)
-            return {
-              TabLineSel = { bg = C.pink },
-              CmpBorder = { fg = C.surface2 },
-              Pmenu = { bg = C.none },
-              TelescopeBorder = { link = 'FloatBorder' },
-            }
-          end,
-        },
-      }
-
-      --setup must be called before loading
-      vim.cmd.colorscheme 'catppuccin'
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
+    -- priority = 1000,
+    -- config = function()
+    --   require('catppuccin').setup {
+    --     flavour = 'mocha', -- latte, frappe, macchiato, mocha
+    --     term_colors = true,
+    --     transparent_background = true,
+    --     no_italic = false,
+    --     no_bold = false,
+    --     styles = {
+    --       comments = {},
+    --       conditionals = {},
+    --       loops = {},
+    --       functions = {},
+    --       keywords = {},
+    --       strings = {},
+    --       variables = {},
+    --       numbers = {},
+    --       booleans = {},
+    --       properties = {},
+    --       types = {},
+    --     },
+    --     color_overrides = {
+    --       mocha = {
+    --         base = '#000000',
+    --         mantle = '#000000',
+    --         crust = '#000000',
+    --       },
+    --     },
+    --     highlight_overrides = {
+    --       mocha = function(C)
+    --         return {
+    --           TabLineSel = { bg = C.pink },
+    --           CmpBorder = { fg = C.surface2 },
+    --           Pmenu = { bg = C.none },
+    --           TelescopeBorder = { link = 'FloatBorder' },
+    --         }
+    --       end,
+    --     },
+    --   }
+    --
+    --   -- --setup must be called before loading
+    --   vim.cmd.colorscheme 'catppuccin'
+    --   -- -- You can configure highlights by doing something like:
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
   {
     'rebelot/kanagawa.nvim',
+    priority = 1000,
+    -- init = function()
+    --   -- Default options:
+    --   require('kanagawa').setup {
+    --     compile = false, -- enable compiling the colorscheme
+    --     undercurl = true, -- enable undercurls
+    --     commentStyle = { italic = true },
+    --     functionStyle = {},
+    --     keywordStyle = { italic = true },
+    --     statementStyle = { bold = true },
+    --     typeStyle = {},
+    --     transparent = true, -- do not set background color
+    --     dimInactive = false, -- dim inactive window `:h hl-NormalNC`
+    --     terminalColors = true, -- define vim.g.terminal_color_{0,17}
+    --     colors = { -- add/modify theme and palette colors
+    --       palette = {},
+    --       theme = { wave = {}, lotus = {}, dragon = {}, all = {
+    --         ui = {
+    --           bg_gutter = 'none',
+    --         },
+    --       } },
+    --     },
+    --     theme = 'dragon', -- Load "wave" theme when 'background' option is not set
+    --     background = { -- map the value of 'background' option to a theme
+    --       dark = 'dragon', -- try "dragon" !
+    --       light = 'lotus',
+    --     },
+    --   }
+    --
+    --   -- setup must be called before loading
+    --   vim.cmd 'colorscheme kanagawa'
+    --   vim.cmd.colorscheme 'kanagawa-dragon'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
   {
     'tjdevries/colorbuddy.nvim',
@@ -1127,8 +1184,28 @@ require('lazy').setup({
     -- end,
   },
   { 'EdenEast/nightfox.nvim' },
+  { 'LunarVim/primer.nvim' },
   { 'LunarVim/darkplus.nvim' },
   { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+
+  {
+    'sainnhe/edge',
+    -- priority = 1000,
+    -- init = function()
+    --   -- vim.g.gruvbox_material_disable_italic_comment = 1
+    --   vim.g.edge_diagnostic_text_highlight = 1
+    --   vim.g.edge_diagnostic_line_highlight = 1
+    --   vim.g.edge_diagnostic_virtual_text = 'colored'
+    --   vim.g.edge_transparent_background = 1
+    --   -- vim.g.gruvbox_material_foreground = 'original'
+    --   -- vim.g.gruvbox_material_dim_inactive_windows = 1
+    --   -- vim.cmd.colorscheme 'edge'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   -- vim.cmd.hi 'Comment gui=none'
+    -- end,
+  },
+
   {
     'sainnhe/gruvbox-material',
     -- priority = 1000,
