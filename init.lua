@@ -191,8 +191,8 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- CUSTOM KEYMAPS
--- vim.keymap.set('n', '<C-d>', '<C-d>zz')
--- vim.keymap.set('n', '<C-u>', '<C-u>zz')
+vim.keymap.set('n', '<C-d>', '<C-d>zz')
+vim.keymap.set('n', '<C-u>', '<C-u>zz')
 
 -- greatest remap ever
 vim.keymap.set('x', '<leader>p', [["_dP]])
@@ -1007,36 +1007,123 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    priority = 1000,
+    init = function()
+      require('rose-pine').setup {
+        variant = 'auto', -- auto, main, moon, or dawn
+        dark_variant = 'main', -- main, moon, or dawn
+        dim_inactive_windows = false,
+        extend_background_behind_borders = true,
+
+        enable = {
+          terminal = true,
+          legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+          migrations = true, -- Handle deprecated options automatically
+        },
+
+        styles = {
+          bold = false,
+          italic = false,
+          transparency = true,
+        },
+
+        groups = {
+          border = 'muted',
+          link = 'iris',
+          panel = 'surface',
+
+          error = 'love',
+          hint = 'iris',
+          info = 'foam',
+          note = 'pine',
+          todo = 'rose',
+          warn = 'gold',
+
+          git_add = 'foam',
+          git_change = 'rose',
+          git_delete = 'love',
+          git_dirty = 'rose',
+          git_ignore = 'muted',
+          git_merge = 'iris',
+          git_rename = 'pine',
+          git_stage = 'iris',
+          git_text = 'rose',
+          git_untracked = 'subtle',
+
+          h1 = 'iris',
+          h2 = 'foam',
+          h3 = 'rose',
+          h4 = 'gold',
+          h5 = 'pine',
+          h6 = 'foam',
+        },
+
+        highlight_groups = {
+          -- Comment = { fg = "foam" },
+          -- VertSplit = { fg = "muted", bg = "muted" },
+        },
+
+        before_highlight = function(group, highlight, palette)
+          -- Disable all undercurls
+          -- if highlight.undercurl then
+          --     highlight.undercurl = false
+          -- end
+          --
+          -- Change palette colour
+          -- if highlight.fg == palette.pine then
+          --     highlight.fg = palette.foam
+          -- end
+        end,
+      }
+
+      vim.cmd 'colorscheme rose-pine'
+      -- vim.cmd("colorscheme rose-pine-main")
+      -- vim.cmd("colorscheme rose-pine-moon")
+      -- vim.cmd("colorscheme rose-pine-dawn")
+
+      -- Load the colorscheme here.
+      -- Like many other themes, this one has different styles, and you could load
+      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+      vim.cmd.colorscheme 'rose-pine'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
+    end,
+  },
+
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
     -- change the command in the config to whatever the name of that colorscheme is.
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'folke/tokyonight.nvim',
-    priority = 1000, -- Make sure to load this before all the other start plugins.
-    opts = {
-      transparent = true,
-      styles = {
-        -- Style to be applied to different syntax groups
-        -- Value is any valid attr-list value for `:help nvim_set_hl`
-        comments = { italic = true },
-        keywords = { italic = true },
-        functions = {},
-        variables = {},
-        -- Background styles. Can be "dark", "transparent" or "normal"
-        sidebars = 'transparent', -- style for sidebars, see below
-        floats = 'transparent', -- style for floating windows
-      },
-    },
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
+    -- priority = 1000, -- Make sure to load this before all the other start plugins.
+    -- opts = {
+    --   transparent = true,
+    --   styles = {
+    --     -- Style to be applied to different syntax groups
+    --     -- Value is any valid attr-list value for `:help nvim_set_hl`
+    --     comments = { italic = true },
+    --     keywords = { italic = true },
+    --     functions = {},
+    --     variables = {},
+    --     -- Background styles. Can be "dark", "transparent" or "normal"
+    --     sidebars = 'transparent', -- style for sidebars, see below
+    --     floats = 'transparent', -- style for floating windows
+    --   },
+    -- },
+    -- init = function()
+    --   -- Load the colorscheme here.
+    --   -- Like many other themes, this one has different styles, and you could load
+    --   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+    --   vim.cmd.colorscheme 'tokyonight-night'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
 
   -- COLORSCHEMES
@@ -1228,14 +1315,6 @@ require('lazy').setup({
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
-  -- BETTER ESCAPE
-  {
-    'max397574/better-escape.nvim',
-    config = function()
-      require('better_escape').setup()
-    end,
-  },
-
   -- TS-ERROR-TRANSLATER
   { 'dmmulroy/ts-error-translator.nvim' },
   -- COPILOT
@@ -1372,37 +1451,6 @@ require('lazy').setup({
     end,
   },
 
-  -- NEOSCROLL
-  {
-    'karb94/neoscroll.nvim',
-    config = function()
-      require('neoscroll').setup {
-        mappings = { -- Keys to be mapped to their corresponding default scrolling animation
-          '<C-u>',
-          '<C-d>',
-          '<C-b>',
-          '<C-f>',
-          '<C-y>',
-          '<C-e>',
-          'zt',
-          'zz',
-          'zb',
-        },
-        hide_cursor = true, -- Hide cursor while scrolling
-        stop_eof = true, -- Stop at <EOF> when scrolling downwards
-        respect_scrolloff = false, -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-        easing = 'linear', -- Default easing function
-        -- pre_hook = nil, -- Function to run before the scrolling animation starts
-        post_hook = nil, -- Function to run after the scrolling animation ends
-        pre_hook = function(_)
-          -- Center before scrolling
-          vim.cmd 'normal! zz'
-        end,
-        performance_mode = false,
-      }
-    end,
-  },
   -- OIL
   {
     'stevearc/oil.nvim',
