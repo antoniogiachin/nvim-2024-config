@@ -189,6 +189,10 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- CUSTOM KEYMAPS
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
@@ -345,20 +349,20 @@ require('lazy').setup({
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
-      }
-      -- visual mode
-      require('which-key').register({
-        ['<leader>h'] = { 'Git [H]unk' },
-      }, { mode = 'v' })
+      -- -- Document existing key chains
+      -- require('which-key').register {
+      --   ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+      --   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+      --   ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+      --   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+      --   ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+      --   ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+      --   ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+      -- }
+      -- -- visual mode
+      -- require('which-key').register({
+      --   ['<leader>h'] = { 'Git [H]unk' },
+      -- }, { mode = 'v' })
     end,
   },
 
@@ -1007,291 +1011,122 @@ require('lazy').setup({
     end,
   },
 
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    priority = 1000,
-    init = function()
-      require('rose-pine').setup {
-        variant = 'auto', -- auto, main, moon, or dawn
-        dark_variant = 'main', -- main, moon, or dawn
-        dim_inactive_windows = false,
-        extend_background_behind_borders = true,
+  -- {
+  --   'rose-pine/neovim',
+  --   name = 'rose-pine',
+  --   priority = 1000,
+  --   init = function()
+  --     require('rose-pine').setup {
+  --       variant = 'auto', -- auto, main, moon, or dawn
+  --       dark_variant = 'main', -- main, moon, or dawn
+  --       dim_inactive_windows = false,
+  --       extend_background_behind_borders = true,
+  --
+  --       enable = {
+  --         terminal = true,
+  --         legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
+  --         migrations = true, -- Handle deprecated options automatically
+  --       },
+  --
+  --       styles = {
+  --         bold = false,
+  --         italic = false,
+  --         transparency = true,
+  --       },
+  --
+  --       groups = {
+  --         border = 'muted',
+  --         link = 'iris',
+  --         panel = 'surface',
+  --
+  --         error = 'love',
+  --         hint = 'iris',
+  --         info = 'foam',
+  --         note = 'pine',
+  --         todo = 'rose',
+  --         warn = 'gold',
+  --
+  --         git_add = 'foam',
+  --         git_change = 'rose',
+  --         git_delete = 'love',
+  --         git_dirty = 'rose',
+  --         git_ignore = 'muted',
+  --         git_merge = 'iris',
+  --         git_rename = 'pine',
+  --         git_stage = 'iris',
+  --         git_text = 'rose',
+  --         git_untracked = 'subtle',
+  --
+  --         h1 = 'iris',
+  --         h2 = 'foam',
+  --         h3 = 'rose',
+  --         h4 = 'gold',
+  --         h5 = 'pine',
+  --         h6 = 'foam',
+  --       },
+  --
+  --       highlight_groups = {
+  --         -- Comment = { fg = "foam" },
+  --         -- VertSplit = { fg = "muted", bg = "muted" },
+  --       },
+  --
+  --       before_highlight = function(group, highlight, palette)
+  --         -- Disable all undercurls
+  --         -- if highlight.undercurl then
+  --         --     highlight.undercurl = false
+  --         -- end
+  --         --
+  --         -- Change palette colour
+  --         -- if highlight.fg == palette.pine then
+  --         --     highlight.fg = palette.foam
+  --         -- end
+  --       end,
+  --     }
+  --
+  --     vim.cmd 'colorscheme rose-pine'
+  --     -- vim.cmd("colorscheme rose-pine-main")
+  --     -- vim.cmd("colorscheme rose-pine-moon")
+  --     -- vim.cmd("colorscheme rose-pine-dawn")
+  --
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     vim.cmd.colorscheme 'rose-pine'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
 
-        enable = {
-          terminal = true,
-          legacy_highlights = true, -- Improve compatibility for previous versions of Neovim
-          migrations = true, -- Handle deprecated options automatically
-        },
-
-        styles = {
-          bold = false,
-          italic = false,
-          transparency = true,
-        },
-
-        groups = {
-          border = 'muted',
-          link = 'iris',
-          panel = 'surface',
-
-          error = 'love',
-          hint = 'iris',
-          info = 'foam',
-          note = 'pine',
-          todo = 'rose',
-          warn = 'gold',
-
-          git_add = 'foam',
-          git_change = 'rose',
-          git_delete = 'love',
-          git_dirty = 'rose',
-          git_ignore = 'muted',
-          git_merge = 'iris',
-          git_rename = 'pine',
-          git_stage = 'iris',
-          git_text = 'rose',
-          git_untracked = 'subtle',
-
-          h1 = 'iris',
-          h2 = 'foam',
-          h3 = 'rose',
-          h4 = 'gold',
-          h5 = 'pine',
-          h6 = 'foam',
-        },
-
-        highlight_groups = {
-          -- Comment = { fg = "foam" },
-          -- VertSplit = { fg = "muted", bg = "muted" },
-        },
-
-        before_highlight = function(group, highlight, palette)
-          -- Disable all undercurls
-          -- if highlight.undercurl then
-          --     highlight.undercurl = false
-          -- end
-          --
-          -- Change palette colour
-          -- if highlight.fg == palette.pine then
-          --     highlight.fg = palette.foam
-          -- end
-        end,
-      }
-
-      vim.cmd 'colorscheme rose-pine'
-      -- vim.cmd("colorscheme rose-pine-main")
-      -- vim.cmd("colorscheme rose-pine-moon")
-      -- vim.cmd("colorscheme rose-pine-dawn")
-
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'rose-pine'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
-  },
-
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    -- priority = 1000, -- Make sure to load this before all the other start plugins.
-    -- opts = {
-    --   transparent = true,
-    --   styles = {
-    --     -- Style to be applied to different syntax groups
-    --     -- Value is any valid attr-list value for `:help nvim_set_hl`
-    --     comments = { italic = true },
-    --     keywords = { italic = true },
-    --     functions = {},
-    --     variables = {},
-    --     -- Background styles. Can be "dark", "transparent" or "normal"
-    --     sidebars = 'transparent', -- style for sidebars, see below
-    --     floats = 'transparent', -- style for floating windows
-    --   },
-    -- },
-    -- init = function()
-    --   -- Load the colorscheme here.
-    --   -- Like many other themes, this one has different styles, and you could load
-    --   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-    --   vim.cmd.colorscheme 'tokyonight-night'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
+  { 'folke/tokyonight.nvim' },
 
   -- COLORSCHEMES
   'eldritch-theme/eldritch.nvim',
   { 'ribru17/bamboo.nvim' },
 
-  {
-    'craftzdog/solarized-osaka.nvim',
-    lazy = false,
-    name = 'solarized-osaka',
-    priority = 1000,
-    opts = {},
-    -- init = function()
-    --   -- setup must be called before loading
-    --   vim.cmd.colorscheme 'solarized-osaka'
-    --   --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
+  { 'craftzdog/solarized-osaka.nvim' },
 
   -- Cyberdream
-  {
-    'scottmckendry/cyberdream.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('cyberdream').setup {
-        transparent = true,
-      }
+  { 'scottmckendry/cyberdream.nvim' },
 
-      --setup must be called before loading
-      -- vim.cmd.colorscheme 'cyberdream'
-      -- You can configure highlights by doing something like:
-      -- vim.cmd.hi 'Comment gui=none'
-    end,
-  },
-
-  -- Catppuccin
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    -- priority = 1000,
-    -- config = function()
-    --   require('catppuccin').setup {
-    --     flavour = 'mocha', -- latte, frappe, macchiato, mocha
-    --     term_colors = true,
-    --     transparent_background = true,
-    --     no_italic = false,
-    --     no_bold = false,
-    --     styles = {
-    --       comments = {},
-    --       conditionals = {},
-    --       loops = {},
-    --       functions = {},
-    --       keywords = {},
-    --       strings = {},
-    --       variables = {},
-    --       numbers = {},
-    --       booleans = {},
-    --       properties = {},
-    --       types = {},
-    --     },
-    --     color_overrides = {
-    --       mocha = {
-    --         base = '#000000',
-    --         mantle = '#000000',
-    --         crust = '#000000',
-    --       },
-    --     },
-    --     highlight_overrides = {
-    --       mocha = function(C)
-    --         return {
-    --           TabLineSel = { bg = C.pink },
-    --           CmpBorder = { fg = C.surface2 },
-    --           Pmenu = { bg = C.none },
-    --           TelescopeBorder = { link = 'FloatBorder' },
-    --         }
-    --       end,
-    --     },
-    --   }
-    --
-    --   -- --setup must be called before loading
-    --   vim.cmd.colorscheme 'catppuccin'
-    --   -- -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
-  {
-    'rebelot/kanagawa.nvim',
-    priority = 1000,
-    -- init = function()
-    --   -- Default options:
-    --   require('kanagawa').setup {
-    --     compile = false, -- enable compiling the colorscheme
-    --     undercurl = true, -- enable undercurls
-    --     commentStyle = { italic = true },
-    --     functionStyle = {},
-    --     keywordStyle = { italic = true },
-    --     statementStyle = { bold = true },
-    --     typeStyle = {},
-    --     transparent = true, -- do not set background color
-    --     dimInactive = false, -- dim inactive window `:h hl-NormalNC`
-    --     terminalColors = true, -- define vim.g.terminal_color_{0,17}
-    --     colors = { -- add/modify theme and palette colors
-    --       palette = {},
-    --       theme = { wave = {}, lotus = {}, dragon = {}, all = {
-    --         ui = {
-    --           bg_gutter = 'none',
-    --         },
-    --       } },
-    --     },
-    --     theme = 'dragon', -- Load "wave" theme when 'background' option is not set
-    --     background = { -- map the value of 'background' option to a theme
-    --       dark = 'dragon', -- try "dragon" !
-    --       light = 'lotus',
-    --     },
-    --   }
-    --
-    --   -- setup must be called before loading
-    --   vim.cmd 'colorscheme kanagawa'
-    --   vim.cmd.colorscheme 'kanagawa-dragon'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
+  { 'rebelot/kanagawa.nvim' },
   {
     'tjdevries/colorbuddy.nvim',
-    -- priority = 1000,
-    -- init = function()
-    --   vim.cmd.colorscheme 'colorbuddy'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
+    priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'gruvbuddy'
+
+      -- You can configure highlights by doing something like:
+      vim.cmd.hi 'Comment gui=none'
+    end,
   },
-  {
-    'blazkowolf/gruber-darker.nvim',
-    -- priority = 1000,
-    -- init = function()
-    --   vim.cmd.colorscheme 'gruber-darker'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
+  { 'blazkowolf/gruber-darker.nvim' },
   { 'EdenEast/nightfox.nvim' },
   { 'LunarVim/primer.nvim' },
   { 'LunarVim/darkplus.nvim' },
-  { 'ellisonleao/gruvbox.nvim', priority = 1000, config = true },
+  { 'ellisonleao/gruvbox.nvim' },
 
-  {
-    'sainnhe/edge',
-    -- priority = 1000,
-    -- init = function()
-    --   -- vim.g.gruvbox_material_disable_italic_comment = 1
-    --   vim.g.edge_diagnostic_text_highlight = 1
-    --   vim.g.edge_diagnostic_line_highlight = 1
-    --   vim.g.edge_diagnostic_virtual_text = 'colored'
-    --   vim.g.edge_transparent_background = 1
-    --   -- vim.g.gruvbox_material_foreground = 'original'
-    --   -- vim.g.gruvbox_material_dim_inactive_windows = 1
-    --   -- vim.cmd.colorscheme 'edge'
-    --
-    --   -- You can configure highlights by doing something like:
-    --   -- vim.cmd.hi 'Comment gui=none'
-    -- end,
-  },
+  { 'sainnhe/edge' },
 
   {
     'sainnhe/gruvbox-material',
@@ -1451,6 +1286,17 @@ require('lazy').setup({
     end,
   },
 
+  -- MARKDOWN
+  {
+    'MeanderingProgrammer/markdown.nvim',
+    name = 'render-markdown', -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    config = function()
+      require('render-markdown').setup {}
+    end,
+  },
   -- OIL
   {
     'stevearc/oil.nvim',
@@ -1491,6 +1337,7 @@ require('lazy').setup({
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
+      require('mini.icons').setup()
       require('mini.surround').setup()
 
       -- Simple and easy statusline.
