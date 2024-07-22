@@ -125,6 +125,7 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
+vim.opt.termguicolors = true
 -- Keep signcolumn on by default
 vim.opt.signcolumn = 'yes'
 
@@ -217,6 +218,19 @@ vim.keymap.set('n', '<leader>qA', '<cmd>:qa!<CR>')
 vim.keymap.set('n', '<leader>|', '<cmd>:vsplit<CR>')
 vim.keymap.set('n', '<leader>_', '<cmd>:split<CR>')
 
+-- window management
+-- keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+-- keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+-- keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+-- keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
+
+vim.keymap.set('n', '<leader>to', '<cmd>tabnew<CR>', { desc = 'Open new tab' }) -- open new tab
+vim.keymap.set('n', '<leader>tq', '<cmd>tabclose<CR>', { desc = 'Close current tab' }) -- close current tab
+vim.keymap.set('n', '<leader>tn', '<cmd>tabn<CR>', { desc = 'Go to next tab' }) --  go to next tab
+vim.keymap.set('n', '<leader>tp', '<cmd>tabp<CR>', { desc = 'Go to previous tab' }) --  go to previous tab
+vim.keymap.set('n', '<leader>tf', '<cmd>tabnew %<CR>', { desc = 'Open current buffer in new tab' }) --  move current buffer to new tab
+vim.keymap.set('i', 'jk', '<ESC>', { desc = 'Exit insert mode with jk' })
+
 -- CUSTOM OPTIONS
 vim.opt.nu = true
 
@@ -226,8 +240,8 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv 'HOME' .. '/.vim/undodir'
 vim.opt.undofile = true
-vim.opt.colorcolumn = '80'
-vim.o.guicursor = 'n-v-c-sm-i-ci-ve:block,r-cr-o:hor20'
+-- vim.opt.colorcolumn = '80'
+-- vim.o.guicursor = 'n-v-c-sm-i-ci-ve:block,r-cr-o:hor20'
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -1098,7 +1112,51 @@ require('lazy').setup({
   --   end,
   -- },
 
-  { 'folke/tokyonight.nvim' },
+  {
+    'folke/tokyonight.nvim',
+    priority = 1000,
+    config = function()
+      local transparent = true -- set to true if you would like to enable transparency
+
+      local bg = '#011628'
+      local bg_dark = '#011423'
+      local bg_highlight = '#143652'
+      local bg_search = '#0A64AC'
+      local bg_visual = '#275378'
+      local fg = '#CBE0F0'
+      local fg_dark = '#B4D0E9'
+      local fg_gutter = '#627E97'
+      local border = '#547998'
+
+      require('tokyonight').setup {
+        style = 'night',
+        transparent = transparent,
+        styles = {
+          sidebars = transparent and 'transparent' or 'dark',
+          floats = transparent and 'transparent' or 'dark',
+        },
+        on_colors = function(colors)
+          colors.bg = bg
+          colors.bg_dark = transparent and colors.none or bg_dark
+          colors.bg_float = transparent and colors.none or bg_dark
+          colors.bg_highlight = bg_highlight
+          colors.bg_popup = bg_dark
+          colors.bg_search = bg_search
+          colors.bg_sidebar = transparent and colors.none or bg_dark
+          colors.bg_statusline = transparent and colors.none or bg_dark
+          colors.bg_visual = bg_visual
+          colors.border = border
+          colors.fg = fg
+          colors.fg_dark = fg_dark
+          colors.fg_float = fg
+          colors.fg_gutter = fg_gutter
+          colors.fg_sidebar = fg_dark
+        end,
+      }
+
+      vim.cmd 'colorscheme tokyonight'
+    end,
+  },
 
   -- COLORSCHEMES
   'eldritch-theme/eldritch.nvim',
@@ -1112,13 +1170,13 @@ require('lazy').setup({
   { 'rebelot/kanagawa.nvim' },
   {
     'tjdevries/colorbuddy.nvim',
-    priority = 1000,
-    init = function()
-      vim.cmd.colorscheme 'gruvbuddy'
-
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi 'Comment gui=none'
-    end,
+    -- priority = 1000,
+    -- init = function()
+    --   vim.cmd.colorscheme 'gruvbuddy'
+    --
+    --   -- You can configure highlights by doing something like:
+    --   vim.cmd.hi 'Comment gui=none'
+    -- end,
   },
   { 'blazkowolf/gruber-darker.nvim' },
   { 'EdenEast/nightfox.nvim' },
@@ -1297,29 +1355,221 @@ require('lazy').setup({
       require('render-markdown').setup {}
     end,
   },
-  -- OIL
+  -- nvim tree
   {
-    'stevearc/oil.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    'nvim-tree/nvim-tree.lua',
+    dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-      require('oil').setup {
-        columns = { 'icon' },
-        keymaps = {
-          ['<C-h>'] = false,
-          ['<M-h>'] = 'actions.select_split',
+      local nvimtree = require 'nvim-tree'
+
+      -- recommended settings from nvim-tree documentation
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      nvimtree.setup {
+        view = {
+          width = 35,
+          relativenumber = true,
         },
-        view_options = {
-          show_hidden = true,
+        -- change folder arrow icons
+        renderer = {
+          indent_markers = {
+            enable = true,
+          },
+          icons = {
+            glyphs = {
+              folder = {
+                arrow_closed = '', -- arrow when folder is closed
+                arrow_open = '', -- arrow when folder is open
+              },
+            },
+          },
+        },
+        -- disable window_picker for
+        -- explorer to work well with
+        -- window splits
+        actions = {
+          open_file = {
+            window_picker = {
+              enable = false,
+            },
+          },
+        },
+        filters = {
+          custom = { '.DS_Store' },
+        },
+        git = {
+          ignore = false,
         },
       }
 
-      -- Open parent directory in current window
-      vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+      -- set keymaps
+      local keymap = vim.keymap -- for conciseness
 
-      -- Open parent directory in floating window
-      vim.keymap.set('n', '<space>-', require('oil').toggle_float)
+      keymap.set('n', '<leader>ee', '<cmd>NvimTreeToggle<CR>', { desc = 'Toggle file explorer' }) -- toggle file explorer
+      keymap.set('n', '<leader>ef', '<cmd>NvimTreeFindFileToggle<CR>', { desc = 'Toggle file explorer on current file' }) -- toggle file explorer on current file
+      keymap.set('n', '<leader>ec', '<cmd>NvimTreeCollapse<CR>', { desc = 'Collapse file explorer' }) -- collapse file explorer
+      keymap.set('n', '<leader>er', '<cmd>NvimTreeRefresh<CR>', { desc = 'Refresh file explorer' }) -- refresh file explorer
     end,
   },
+  {
+    'akinsho/bufferline.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    version = '*',
+    opts = {
+      options = {
+        mode = 'tabs',
+      },
+    },
+  },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    event = { 'BufReadPre', 'BufNewFile' },
+    main = 'ibl',
+    opts = {
+      indent = { char = '┊' },
+    },
+  },
+  {
+    'stevearc/dressing.nvim',
+    event = 'VeryLazy',
+  },
+  {
+    'goolord/alpha-nvim',
+    event = 'VimEnter',
+    config = function()
+      local alpha = require 'alpha'
+      local dashboard = require 'alpha.themes.dashboard'
+
+      -- Set header
+      dashboard.section.header.val = {
+        '                                                     ',
+        '  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ',
+        '  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ',
+        '  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ',
+        '  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ',
+        '  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ',
+        '  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ',
+        '                                                     ',
+      }
+
+      -- Set menu
+      dashboard.section.buttons.val = {
+        dashboard.button('e', '  > New File', '<cmd>ene<CR>'),
+        dashboard.button('SPC ee', '  > Toggle file explorer', '<cmd>NvimTreeToggle<CR>'),
+        dashboard.button('SPC sf', '󰱼  > Find File', '<cmd>Telescope find_files<CR>'),
+        dashboard.button('SPC sg', '  > Find Word', '<cmd>Telescope live_grep<CR>'),
+        dashboard.button('q', '  > Quit NVIM', '<cmd>qa<CR>'),
+      }
+
+      -- Send config to alpha
+      alpha.setup(dashboard.opts)
+
+      -- Disable folding on alpha buffer
+      vim.cmd [[autocmd FileType alpha setlocal nofoldenable]]
+    end,
+  },
+  -- LUALINE
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
+    config = function()
+      local lualine = require 'lualine'
+      local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
+
+      local colors = {
+        blue = '#65D1FF',
+        green = '#3EFFDC',
+        violet = '#FF61EF',
+        yellow = '#FFDA7B',
+        red = '#FF4A4A',
+        fg = '#c3ccdc',
+        bg = '#112638',
+        inactive_bg = '#2c3043',
+      }
+
+      local my_lualine_theme = {
+        normal = {
+          a = { bg = colors.blue, fg = colors.bg, gui = 'bold' },
+          b = { bg = colors.bg, fg = colors.fg },
+          c = { bg = colors.bg, fg = colors.fg },
+        },
+        insert = {
+          a = { bg = colors.green, fg = colors.bg, gui = 'bold' },
+          b = { bg = colors.bg, fg = colors.fg },
+          c = { bg = colors.bg, fg = colors.fg },
+        },
+        visual = {
+          a = { bg = colors.violet, fg = colors.bg, gui = 'bold' },
+          b = { bg = colors.bg, fg = colors.fg },
+          c = { bg = colors.bg, fg = colors.fg },
+        },
+        command = {
+          a = { bg = colors.yellow, fg = colors.bg, gui = 'bold' },
+          b = { bg = colors.bg, fg = colors.fg },
+          c = { bg = colors.bg, fg = colors.fg },
+        },
+        replace = {
+          a = { bg = colors.red, fg = colors.bg, gui = 'bold' },
+          b = { bg = colors.bg, fg = colors.fg },
+          c = { bg = colors.bg, fg = colors.fg },
+        },
+        inactive = {
+          a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = 'bold' },
+          b = { bg = colors.inactive_bg, fg = colors.semilightgray },
+          c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+        },
+      }
+
+      -- configure lualine with modified theme
+      lualine.setup {
+        options = {
+          theme = my_lualine_theme,
+        },
+        sections = {
+          lualine_x = {
+            {
+              lazy_status.updates,
+              cond = lazy_status.has_updates,
+              color = { fg = '#ff9e64' },
+            },
+            { 'encoding' },
+            { 'fileformat' },
+            { 'filetype' },
+          },
+        },
+      }
+    end,
+  },
+  {
+    'szw/vim-maximizer',
+    keys = {
+      { '<leader>sm', '<cmd>MaximizerToggle<CR>', desc = 'Maximize/minimize a split' },
+    },
+  },
+  -- OIL
+  -- {
+  --   'stevearc/oil.nvim',
+  --   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  --   config = function()
+  --     require('oil').setup {
+  --       columns = { 'icon' },
+  --       keymaps = {
+  --         ['<C-h>'] = false,
+  --         ['<M-h>'] = 'actions.select_split',
+  --       },
+  --       view_options = {
+  --         show_hidden = true,
+  --       },
+  --     }
+  --
+  --     -- Open parent directory in current window
+  --     vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+  --
+  --     -- Open parent directory in floating window
+  --     vim.keymap.set('n', '<space>-', require('oil').toggle_float)
+  --   end,
+  -- },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -1343,18 +1593,18 @@ require('lazy').setup({
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
-      local statusline = require 'mini.statusline'
-      -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      -- You can configure sections in the statusline by overriding their
-      -- default behavior. For example, here we set the section for
-      -- cursor location to LINE:COLUMN
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
-
+      -- local statusline = require 'mini.statusline'
+      -- -- set use_icons to true if you have a Nerd Font
+      -- statusline.setup { use_icons = vim.g.have_nerd_font }
+      --
+      -- -- You can configure sections in the statusline by overriding their
+      -- -- default behavior. For example, here we set the section for
+      -- -- cursor location to LINE:COLUMN
+      -- ---@diagnostic disable-next-line: duplicate-set-field
+      -- statusline.section_location = function()
+      --   return '%2l:%-2v'
+      -- end
+      --
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
