@@ -741,21 +741,6 @@ require('lazy').setup({
           --     end,
           --   })
           -- end
-
-          -- The following autocommand is used to enable inlay hints in your
-          -- code, if the language server you are using supports them
-          --
-          -- This may be unwanted, since they displace some of your code
-          if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map('<leader>th', function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, '[T]oggle Inlay [H]ints')
-          end
-
-          if client and client.name == 'tsserver' then -- TypeScript specific configuration
-            -- Disable formatting for tsserver, as we are using prettier
-            client.server_capabilities.documentFormattingProvider = false
-          end
         end,
       })
 
@@ -805,28 +790,28 @@ require('lazy').setup({
         -- },
 
         -- Probably want to disable formatting for this lang server
-        tsserver = {
-          capabilities = {
-            documentFormattingProvider = false,
-          },
-        },
+        -- tsserver = {
+        --   capabilities = {
+        --     documentFormattingProvider = false,
+        --   },
+        -- },
 
-        jsonls = {
-          settings = {
-            json = {
-              schemas = require('schemastore').json.schemas(),
-              validate = { enable = true },
-            },
-          },
-        },
-
-        clangd = {
-          -- TODO: Could include cmd, but not sure those were all relevant flags.
-          --    looks like something i would have added while i was floundering
-          init_options = { clangdFileStatus = true },
-          filetypes = { 'c' },
-        },
-
+        -- jsonls = {
+        --   settings = {
+        --     json = {
+        --       schemas = require('schemastore').json.schemas(),
+        --       validate = { enable = true },
+        --     },
+        --   },
+        -- },
+        --
+        -- clangd = {
+        --   -- TODO: Could include cmd, but not sure those were all relevant flags.
+        --   --    looks like something i would have added while i was floundering
+        --   init_options = { clangdFileStatus = true },
+        --   filetypes = { 'c' },
+        -- },
+        --
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -870,6 +855,13 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
         },
+      }
+
+      require('lspconfig').tsserver.setup {
+        on_attach = function(client, _)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
       }
     end,
   },
