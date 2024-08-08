@@ -1112,98 +1112,150 @@ require('lazy').setup({
 
   {
     'folke/tokyonight.nvim',
-    priority = 1000,
-    config = function()
-      local transparent = true -- set to true if you would like to enable transparency
-
-      local bg = '#011628'
-      local bg_dark = '#011423'
-      local bg_highlight = '#143652'
-      local bg_search = '#0A64AC'
-      local bg_visual = '#275378'
-      local fg = '#CBE0F0'
-      local fg_dark = '#B4D0E9'
-      local fg_gutter = '#143652'
-      local border = '#547998'
-
-      require('tokyonight').setup {
-        style = 'night',
-        transparent = transparent,
-        styles = {
-          sidebars = transparent and 'transparent' or 'dark',
-          floats = transparent and 'transparent' or 'dark',
-        },
-        on_colors = function(colors)
-          colors.bg = bg
-          colors.bg_dark = transparent and colors.none or bg_dark
-          colors.bg_float = transparent and colors.none or bg_dark
-          colors.bg_highlight = bg_highlight
-          colors.bg_popup = bg_dark
-          colors.bg_search = bg_search
-          colors.bg_sidebar = transparent and colors.none or bg_dark
-          colors.bg_statusline = transparent and colors.none or bg_dark
-          colors.bg_visual = bg_visual
-          colors.border = border
-          colors.fg = fg
-          colors.fg_dark = fg_dark
-          colors.fg_float = fg
-          colors.fg_gutter = fg_gutter
-          colors.fg_sidebar = fg_dark
-        end,
-      }
-
-      vim.cmd 'colorscheme tokyonight'
-
-      vim.cmd.hi 'Comment gui=none'
-    end,
-  },
-
-  -- COLORSCHEMES
-  'eldritch-theme/eldritch.nvim',
-  { 'ribru17/bamboo.nvim' },
-
-  { 'craftzdog/solarized-osaka.nvim' },
-
-  -- Cyberdream
-  { 'scottmckendry/cyberdream.nvim' },
-
-  { 'rebelot/kanagawa.nvim' },
-  {
-    'tjdevries/colorbuddy.nvim',
     -- priority = 1000,
-    -- init = function()
-    --   vim.cmd.colorscheme 'gruvbuddy'
+    -- config = function()
+    --   local transparent = true -- set to true if you would like to enable transparency
     --
-    --   -- You can configure highlights by doing something like:
+    --   local bg = '#011628'
+    --   local bg_dark = '#011423'
+    --   local bg_highlight = '#143652'
+    --   local bg_search = '#0A64AC'
+    --   local bg_visual = '#275378'
+    --   local fg = '#CBE0F0'
+    --   local fg_dark = '#B4D0E9'
+    --   local fg_gutter = '#143652'
+    --   local border = '#547998'
+    --
+    --   require('tokyonight').setup {
+    --     style = 'night',
+    --     transparent = transparent,
+    --     styles = {
+    --       sidebars = transparent and 'transparent' or 'dark',
+    --       floats = transparent and 'transparent' or 'dark',
+    --     },
+    --     on_colors = function(colors)
+    --       colors.bg = bg
+    --       colors.bg_dark = transparent and colors.none or bg_dark
+    --       colors.bg_float = transparent and colors.none or bg_dark
+    --       colors.bg_highlight = bg_highlight
+    --       colors.bg_popup = bg_dark
+    --       colors.bg_search = bg_search
+    --       colors.bg_sidebar = transparent and colors.none or bg_dark
+    --       colors.bg_statusline = transparent and colors.none or bg_dark
+    --       colors.bg_visual = bg_visual
+    --       colors.border = border
+    --       colors.fg = fg
+    --       colors.fg_dark = fg_dark
+    --       colors.fg_float = fg
+    --       colors.fg_gutter = fg_gutter
+    --       colors.fg_sidebar = fg_dark
+    --     end,
+    --   }
+    --
+    --   vim.cmd 'colorscheme tokyonight'
+    --
     --   vim.cmd.hi 'Comment gui=none'
     -- end,
   },
+
+  -- Cyberdream
   { 'blazkowolf/gruber-darker.nvim' },
   { 'EdenEast/nightfox.nvim' },
   { 'LunarVim/primer.nvim' },
-  { 'LunarVim/darkplus.nvim' },
-  { 'ellisonleao/gruvbox.nvim' },
-
-  { 'sainnhe/edge' },
-
+  { 'aliqyan-21/darkvoid.nvim' },
+  { 'nyoom-engineering/oxocarbon.nvim' },
   {
-    'sainnhe/gruvbox-material',
+    'Mofiqul/vscode.nvim',
+    lazy = false, -- make sure we load this during startup if it is your main colorscheme
+    priority = 1000, -- make sure to load this before all the other start plugins
+    init = function()
+      require('vscode').setup {
+        -- Alternatively set style in setup
+        -- style = 'light'
+
+        -- Enable transparent background
+        transparent = true,
+
+        -- Enable italic comment
+        -- italic_comments = true,
+
+        -- Underline `@markup.link.*` variants
+        underline_links = true,
+
+        -- Disable nvim-tree background color
+        disable_nvimtree_bg = true,
+
+        -- Override colors (see ./lua/vscode/colors.lua)
+        -- color_overrides = {
+        --   vscLineNumber = '#FFFFFF',
+        -- },
+
+        -- Override highlight groups (see ./lua/vscode/theme.lua)
+        -- group_overrides = {
+        --   -- this supports the same val table as vim.api.nvim_set_hl
+        --   -- use colors from this colorscheme by requiring vscode.colors!
+        --   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+        -- },
+      }
+      vim.cmd 'colorscheme vscode'
+    end,
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
     -- priority = 1000,
     -- init = function()
-    --   -- vim.g.gruvbox_material_disable_italic_comment = 1
-    --   vim.g.gruvbox_material_diagnostic_text_highlight = 1
-    --   vim.g.gruvbox_material_diagnostic_line_highlight = 1
-    --   vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
-    --   -- vim.g.gruvbox_material_transparent_background = 1
-    --   vim.g.gruvbox_material_background = 'hard'
-    --   -- vim.g.gruvbox_material_foreground = 'original'
-    --   -- vim.g.gruvbox_material_dim_inactive_windows = 1
-    --   vim.cmd.colorscheme 'gruvbox-material'
+    --   -- Default options:
+    --   require('gruvbox').setup {
+    --     terminal_colors = true, -- add neovim terminal colors
+    --     undercurl = true,
+    --     underline = true,
+    --     bold = true,
+    --     italic = {
+    --       strings = true,
+    --       emphasis = true,
+    --       comments = true,
+    --       operators = false,
+    --       folds = true,
+    --     },
+    --     strikethrough = true,
+    --     invert_selection = false,
+    --     invert_signs = false,
+    --     invert_tabline = false,
+    --     invert_intend_guides = false,
+    --     inverse = true, -- invert background for search, diffs, statuslines and errors
+    --     contrast = '', -- can be "hard", "soft" or empty string
+    --     palette_overrides = {},
+    --     overrides = {},
+    --     dim_inactive = false,
+    --     transparent_mode = true,
+    --   }
     --
-    --   -- You can configure highlights by doing something like:
+    --   vim.cmd 'colorscheme gruvbox'
+    --
     --   vim.cmd.hi 'Comment gui=none'
     -- end,
   },
+
+  { 'sainnhe/edge' },
+
+  -- {
+  --   'sainnhe/gruvbox-material',
+  --   priority = 1000,
+  --   init = function()
+  --     -- vim.g.gruvbox_material_disable_italic_comment = 1
+  --     vim.g.gruvbox_material_diagnostic_text_highlight = 1
+  --     vim.g.gruvbox_material_diagnostic_line_highlight = 1
+  --     vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
+  --     vim.g.gruvbox_material_transparent_background = 1
+  --     vim.g.gruvbox_material_background = 'hard'
+  --     -- vim.g.gruvbox_material_foreground = 'original'
+  --     -- vim.g.gruvbox_material_dim_inactive_windows = 1
+  --     vim.cmd.colorscheme 'gruvbox-material'
+  --
+  --     -- You can configure highlights by doing something like:
+  --     vim.cmd.hi 'Comment gui=none'
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
@@ -1211,9 +1263,7 @@ require('lazy').setup({
   -- TS-ERROR-TRANSLATER
   { 'dmmulroy/ts-error-translator.nvim' },
   -- COPILOT
-  {
-    'github/copilot.vim',
-  },
+  { 'github/copilot.vim' },
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'canary',
@@ -1477,72 +1527,79 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-      local lualine = require 'lualine'
-      local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
-
-      local colors = {
-        blue = '#65D1FF',
-        green = '#3EFFDC',
-        violet = '#FF61EF',
-        yellow = '#FFDA7B',
-        red = '#FF4A4A',
-        fg = '#c3ccdc',
-        bg = '#112638',
-        inactive_bg = '#2c3043',
-      }
-
-      local my_lualine_theme = {
-        normal = {
-          a = { bg = colors.blue, fg = colors.bg, gui = 'bold' },
-          b = { bg = colors.bg, fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.fg },
-        },
-        insert = {
-          a = { bg = colors.green, fg = colors.bg, gui = 'bold' },
-          b = { bg = colors.bg, fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.fg },
-        },
-        visual = {
-          a = { bg = colors.violet, fg = colors.bg, gui = 'bold' },
-          b = { bg = colors.bg, fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.fg },
-        },
-        command = {
-          a = { bg = colors.yellow, fg = colors.bg, gui = 'bold' },
-          b = { bg = colors.bg, fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.fg },
-        },
-        replace = {
-          a = { bg = colors.red, fg = colors.bg, gui = 'bold' },
-          b = { bg = colors.bg, fg = colors.fg },
-          c = { bg = colors.bg, fg = colors.fg },
-        },
-        inactive = {
-          a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = 'bold' },
-          b = { bg = colors.inactive_bg, fg = colors.semilightgray },
-          c = { bg = colors.inactive_bg, fg = colors.semilightgray },
-        },
-      }
-
-      -- configure lualine with modified theme
-      lualine.setup {
+      require('lualine').setup {
         options = {
-          theme = my_lualine_theme,
-        },
-        sections = {
-          lualine_x = {
-            {
-              lazy_status.updates,
-              cond = lazy_status.has_updates,
-              color = { fg = '#ff9e64' },
-            },
-            { 'encoding' },
-            { 'fileformat' },
-            { 'filetype' },
-          },
+          theme = 'vscode',
         },
       }
     end,
+    -- config = function()
+    --   local lualine = require 'lualine'
+    --   local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
+    --
+    --   local colors = {
+    --     blue = '#65D1FF',
+    --     green = '#3EFFDC',
+    --     violet = '#FF61EF',
+    --     yellow = '#FFDA7B',
+    --     red = '#FF4A4A',
+    --     fg = '#c3ccdc',
+    --     bg = '#112638',
+    --     inactive_bg = '#2c3043',
+    --   }
+    --
+    --   local my_lualine_theme = {
+    --     normal = {
+    --       a = { bg = colors.blue, fg = colors.bg, gui = 'bold' },
+    --       b = { bg = colors.bg, fg = colors.fg },
+    --       c = { bg = colors.bg, fg = colors.fg },
+    --     },
+    --     insert = {
+    --       a = { bg = colors.green, fg = colors.bg, gui = 'bold' },
+    --       b = { bg = colors.bg, fg = colors.fg },
+    --       c = { bg = colors.bg, fg = colors.fg },
+    --     },
+    --     visual = {
+    --       a = { bg = colors.violet, fg = colors.bg, gui = 'bold' },
+    --       b = { bg = colors.bg, fg = colors.fg },
+    --       c = { bg = colors.bg, fg = colors.fg },
+    --     },
+    --     command = {
+    --       a = { bg = colors.yellow, fg = colors.bg, gui = 'bold' },
+    --       b = { bg = colors.bg, fg = colors.fg },
+    --       c = { bg = colors.bg, fg = colors.fg },
+    --     },
+    --     replace = {
+    --       a = { bg = colors.red, fg = colors.bg, gui = 'bold' },
+    --       b = { bg = colors.bg, fg = colors.fg },
+    --       c = { bg = colors.bg, fg = colors.fg },
+    --     },
+    --     inactive = {
+    --       a = { bg = colors.inactive_bg, fg = colors.semilightgray, gui = 'bold' },
+    --       b = { bg = colors.inactive_bg, fg = colors.semilightgray },
+    --       c = { bg = colors.inactive_bg, fg = colors.semilightgray },
+    --     },
+    --   }
+    --
+    --   -- configure lualine with modified theme
+    --   lualine.setup {
+    --     options = {
+    --       theme = my_lualine_theme,
+    --     },
+    --     sections = {
+    --       lualine_x = {
+    --         {
+    --           lazy_status.updates,
+    --           cond = lazy_status.has_updates,
+    --           color = { fg = '#ff9e64' },
+    --         },
+    --         { 'encoding' },
+    --         { 'fileformat' },
+    --         { 'filetype' },
+    --       },
+    --     },
+    --   }
+    -- end,
   },
   {
     'szw/vim-maximizer',
