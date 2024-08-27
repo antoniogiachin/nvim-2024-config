@@ -153,7 +153,7 @@ vim.opt.inccommand = "split"
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 20
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -230,6 +230,30 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) 
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+
+local set = vim.opt_local
+
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("custom-term-open", {}),
+	callback = function()
+		set.number = false
+		set.relativenumber = false
+		set.scrolloff = 0
+	end,
+})
+
+-- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+-- Open a terminat at the bottom of the screen with a fixed height.
+vim.keymap.set("n", ",st", function()
+	vim.cmd.new()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 12)
+	vim.wo.winfixheight = true
+	vim.cmd.term()
+end)
 
 -- CUSTOM OPTIONS
 vim.opt.nu = true
@@ -433,6 +457,7 @@ require("lazy").setup({
 					return vim.fn.executable("make") == 1
 				end,
 			},
+
 			{ "nvim-telescope/telescope-ui-select.nvim" },
 
 			-- Useful for getting pretty icons, but requires a Nerd Font.
@@ -1168,6 +1193,7 @@ require("lazy").setup({
 	},
 
 	-- Cyberdream
+	{ "tjdevries/colorbuddy.nvim" },
 	{ "blazkowolf/gruber-darker.nvim" },
 	{ "EdenEast/nightfox.nvim" },
 	{ "LunarVim/primer.nvim" },
