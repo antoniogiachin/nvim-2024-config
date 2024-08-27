@@ -90,8 +90,10 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+vim.opt.guicursor = ""
+
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -1201,38 +1203,59 @@ require("lazy").setup({
 	{ "nyoom-engineering/oxocarbon.nvim" },
 	{
 		"Mofiqul/vscode.nvim",
+		-- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		-- priority = 1000, -- make sure to load this before all the other start plugins
+		-- init = function()
+		-- 	require("vscode").setup({
+		-- 		-- Alternatively set style in setup
+		-- 		-- style = 'light'
+		--
+		-- 		-- Enable transparent background
+		-- 		transparent = true,
+		--
+		-- 		-- Enable italic comment
+		-- 		-- italic_comments = true,
+		--
+		-- 		-- Underline `@markup.link.*` variants
+		-- 		underline_links = true,
+		--
+		-- 		-- Disable nvim-tree background color
+		-- 		disable_nvimtree_bg = true,
+		--
+		-- 		-- Override colors (see ./lua/vscode/colors.lua)
+		-- 		-- color_overrides = {
+		-- 		--   vscLineNumber = '#FFFFFF',
+		-- 		-- },
+		--
+		-- 		-- Override highlight groups (see ./lua/vscode/theme.lua)
+		-- 		-- group_overrides = {
+		-- 		--   -- this supports the same val table as vim.api.nvim_set_hl
+		-- 		--   -- use colors from this colorscheme by requiring vscode.colors!
+		-- 		--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+		-- 		-- },
+		-- 	})
+		-- 	vim.cmd("colorscheme vscode")
+		-- end,
+	},
+
+	{
+		"rose-pine/neovim",
+		name = "rose-pine",
 		lazy = false, -- make sure we load this during startup if it is your main colorscheme
 		priority = 1000, -- make sure to load this before all the other start plugins
 		init = function()
-			require("vscode").setup({
-				-- Alternatively set style in setup
-				-- style = 'light'
-
-				-- Enable transparent background
-				transparent = true,
-
-				-- Enable italic comment
-				-- italic_comments = true,
-
-				-- Underline `@markup.link.*` variants
-				underline_links = true,
-
-				-- Disable nvim-tree background color
-				disable_nvimtree_bg = true,
-
-				-- Override colors (see ./lua/vscode/colors.lua)
-				-- color_overrides = {
-				--   vscLineNumber = '#FFFFFF',
-				-- },
-
-				-- Override highlight groups (see ./lua/vscode/theme.lua)
-				-- group_overrides = {
-				--   -- this supports the same val table as vim.api.nvim_set_hl
-				--   -- use colors from this colorscheme by requiring vscode.colors!
-				--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-				-- },
+			require("rose-pine").setup({
+				styles = {
+					bold = true,
+					italic = false,
+					transparency = true,
+				},
 			})
-			vim.cmd("colorscheme vscode")
+
+			vim.cmd("colorscheme rose-pine")
+			-- vim.cmd("colorscheme rose-pine-main")
+			-- vim.cmd("colorscheme rose-pine-moon")
+			-- vim.cmd("colorscheme rose-pine-dawn")
 		end,
 	},
 	{
@@ -1574,7 +1597,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "vscode",
+					theme = "rose-pine",
 				},
 			})
 		end,
