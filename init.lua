@@ -884,6 +884,9 @@ require("lazy").setup({
 				handlers = {
 					function(server_name)
 						local server = servers[server_name] or {}
+						if server_name == "tsserver" then
+							server_name = "ts_ls"
+						end
 						-- This handles overriding only values explicitly passed
 						-- by the server configuration above. Useful when disabling
 						-- certain features of an LSP (for example, turning off formatting for tsserver)
@@ -893,7 +896,7 @@ require("lazy").setup({
 				},
 			})
 
-			require("lspconfig").tsserver.setup({
+			require("lspconfig").ts_ls.setup({
 				on_attach = function(client, _)
 					client.server_capabilities.documentFormattingProvider = false
 					client.server_capabilities.documentRangeFormattingProvider = false
@@ -1240,23 +1243,23 @@ require("lazy").setup({
 
 	{
 		"rose-pine/neovim",
-		name = "rose-pine",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		init = function()
-			require("rose-pine").setup({
-				styles = {
-					bold = true,
-					italic = false,
-					transparency = true,
-				},
-			})
-
-			vim.cmd("colorscheme rose-pine")
-			-- vim.cmd("colorscheme rose-pine-main")
-			-- vim.cmd("colorscheme rose-pine-moon")
-			-- vim.cmd("colorscheme rose-pine-dawn")
-		end,
+		-- name = "rose-pine",
+		-- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		-- priority = 1000, -- make sure to load this before all the other start plugins
+		-- init = function()
+		-- 	require("rose-pine").setup({
+		-- 		styles = {
+		-- 			bold = true,
+		-- 			italic = false,
+		-- 			transparency = true,
+		-- 		},
+		-- 	})
+		--
+		-- 	vim.cmd("colorscheme rose-pine")
+		-- 	-- vim.cmd("colorscheme rose-pine-main")
+		-- 	-- vim.cmd("colorscheme rose-pine-moon")
+		-- 	-- vim.cmd("colorscheme rose-pine-dawn")
+		-- end,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
@@ -1296,24 +1299,24 @@ require("lazy").setup({
 
 	{ "sainnhe/edge" },
 
-	-- {
-	--   'sainnhe/gruvbox-material',
-	--   priority = 1000,
-	--   init = function()
-	--     -- vim.g.gruvbox_material_disable_italic_comment = 1
-	--     vim.g.gruvbox_material_diagnostic_text_highlight = 1
-	--     vim.g.gruvbox_material_diagnostic_line_highlight = 1
-	--     vim.g.gruvbox_material_diagnostic_virtual_text = 'colored'
-	--     vim.g.gruvbox_material_transparent_background = 1
-	--     vim.g.gruvbox_material_background = 'hard'
-	--     -- vim.g.gruvbox_material_foreground = 'original'
-	--     -- vim.g.gruvbox_material_dim_inactive_windows = 1
-	--     vim.cmd.colorscheme 'gruvbox-material'
-	--
-	--     -- You can configure highlights by doing something like:
-	--     vim.cmd.hi 'Comment gui=none'
-	--   end,
-	-- },
+	{
+		"sainnhe/gruvbox-material",
+		priority = 1000,
+		init = function()
+			-- vim.g.gruvbox_material_disable_italic_comment = 1
+			vim.g.gruvbox_material_diagnostic_text_highlight = 1
+			vim.g.gruvbox_material_diagnostic_line_highlight = 1
+			vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
+			vim.g.gruvbox_material_transparent_background = 1
+			vim.g.gruvbox_material_background = "hard"
+			-- vim.g.gruvbox_material_foreground = 'original'
+			-- vim.g.gruvbox_material_dim_inactive_windows = 1
+			vim.cmd.colorscheme("gruvbox-material")
+
+			-- You can configure highlights by doing something like:
+			vim.cmd.hi("Comment gui=none")
+		end,
+	},
 
 	-- Highlight todo, notes, etc in comments
 	{
@@ -1597,7 +1600,7 @@ require("lazy").setup({
 		config = function()
 			require("lualine").setup({
 				options = {
-					theme = "rose-pine",
+					theme = "auto",
 				},
 			})
 		end,
