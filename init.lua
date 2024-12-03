@@ -233,6 +233,9 @@ vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab"
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
+-- Toggle Copilot
+vim.keymap.set("n", "<leader>tc", "<cmd>CopilotChatToggle<cr>", { desc = "[t]oggle [c]opilot chat" })
+
 local set = vim.opt_local
 
 -- Set local settings for terminal buffers
@@ -1149,54 +1152,6 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"folke/tokyonight.nvim",
-		-- priority = 1000,
-		-- config = function()
-		--   local transparent = true -- set to true if you would like to enable transparency
-		--
-		--   local bg = '#011628'
-		--   local bg_dark = '#011423'
-		--   local bg_highlight = '#143652'
-		--   local bg_search = '#0A64AC'
-		--   local bg_visual = '#275378'
-		--   local fg = '#CBE0F0'
-		--   local fg_dark = '#B4D0E9'
-		--   local fg_gutter = '#143652'
-		--   local border = '#547998'
-		--
-		--   require('tokyonight').setup {
-		--     style = 'night',
-		--     transparent = transparent,
-		--     styles = {
-		--       sidebars = transparent and 'transparent' or 'dark',
-		--       floats = transparent and 'transparent' or 'dark',
-		--     },
-		--     on_colors = function(colors)
-		--       colors.bg = bg
-		--       colors.bg_dark = transparent and colors.none or bg_dark
-		--       colors.bg_float = transparent and colors.none or bg_dark
-		--       colors.bg_highlight = bg_highlight
-		--       colors.bg_popup = bg_dark
-		--       colors.bg_search = bg_search
-		--       colors.bg_sidebar = transparent and colors.none or bg_dark
-		--       colors.bg_statusline = transparent and colors.none or bg_dark
-		--       colors.bg_visual = bg_visual
-		--       colors.border = border
-		--       colors.fg = fg
-		--       colors.fg_dark = fg_dark
-		--       colors.fg_float = fg
-		--       colors.fg_gutter = fg_gutter
-		--       colors.fg_sidebar = fg_dark
-		--     end,
-		--   }
-		--
-		--   vim.cmd 'colorscheme tokyonight'
-		--
-		--   vim.cmd.hi 'Comment gui=none'
-		-- end,
-	},
-
 	-- Cyberdream
 	{ "tjdevries/colorbuddy.nvim" },
 	{ "blazkowolf/gruber-darker.nvim" },
@@ -1204,41 +1159,89 @@ require("lazy").setup({
 	{ "LunarVim/primer.nvim" },
 	{ "aliqyan-21/darkvoid.nvim" },
 	{ "nyoom-engineering/oxocarbon.nvim" },
+
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		local transparent = false -- set to true if you would like to enable transparency
+	--
+	-- 		local bg = "#011628"
+	-- 		local bg_dark = "#011423"
+	-- 		local bg_highlight = "#143652"
+	-- 		local bg_search = "#0A64AC"
+	-- 		local bg_visual = "#275378"
+	-- 		local fg = "#CBE0F0"
+	-- 		local fg_dark = "#B4D0E9"
+	-- 		local fg_gutter = "#627E97"
+	-- 		local border = "#547998"
+	--
+	-- 		require("tokyonight").setup({
+	-- 			style = "night",
+	-- 			transparent = transparent,
+	-- 			styles = {
+	-- 				sidebars = transparent and "transparent" or "dark",
+	-- 				floats = transparent and "transparent" or "dark",
+	-- 			},
+	-- 			on_colors = function(colors)
+	-- 				colors.bg = bg
+	-- 				colors.bg_dark = transparent and colors.none or bg_dark
+	-- 				colors.bg_float = transparent and colors.none or bg_dark
+	-- 				colors.bg_highlight = bg_highlight
+	-- 				colors.bg_popup = bg_dark
+	-- 				colors.bg_search = bg_search
+	-- 				colors.bg_sidebar = transparent and colors.none or bg_dark
+	-- 				colors.bg_statusline = transparent and colors.none or bg_dark
+	-- 				colors.bg_visual = bg_visual
+	-- 				colors.border = border
+	-- 				colors.fg = fg
+	-- 				colors.fg_dark = fg_dark
+	-- 				colors.fg_float = fg
+	-- 				colors.fg_gutter = fg_gutter
+	-- 				colors.fg_sidebar = fg_dark
+	-- 			end,
+	-- 		})
+	--
+	-- 		vim.cmd("colorscheme tokyonight")
+	-- 		vim.cmd.hi("Comment gui=none")
+	-- 	end,
+	-- },
+
 	{
 		"Mofiqul/vscode.nvim",
-		-- lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		-- priority = 1000, -- make sure to load this before all the other start plugins
-		-- init = function()
-		-- 	require("vscode").setup({
-		-- 		-- Alternatively set style in setup
-		-- 		-- style = 'light'
-		--
-		-- 		-- Enable transparent background
-		-- 		transparent = true,
-		--
-		-- 		-- Enable italic comment
-		-- 		-- italic_comments = true,
-		--
-		-- 		-- Underline `@markup.link.*` variants
-		-- 		underline_links = true,
-		--
-		-- 		-- Disable nvim-tree background color
-		-- 		disable_nvimtree_bg = true,
-		--
-		-- 		-- Override colors (see ./lua/vscode/colors.lua)
-		-- 		-- color_overrides = {
-		-- 		--   vscLineNumber = '#FFFFFF',
-		-- 		-- },
-		--
-		-- 		-- Override highlight groups (see ./lua/vscode/theme.lua)
-		-- 		-- group_overrides = {
-		-- 		--   -- this supports the same val table as vim.api.nvim_set_hl
-		-- 		--   -- use colors from this colorscheme by requiring vscode.colors!
-		-- 		--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-		-- 		-- },
-		-- 	})
-		-- 	vim.cmd("colorscheme vscode")
-		-- end,
+		lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		priority = 1000, -- make sure to load this before all the other start plugins
+		init = function()
+			require("vscode").setup({
+				-- Alternatively set style in setup
+				-- style = 'light'
+
+				-- Enable transparent background
+				transparent = true,
+
+				-- Enable italic comment
+				-- italic_comments = true,
+
+				-- Underline `@markup.link.*` variants
+				underline_links = true,
+
+				-- Disable nvim-tree background color
+				disable_nvimtree_bg = true,
+
+				-- Override colors (see ./lua/vscode/colors.lua)
+				-- color_overrides = {
+				--   vscLineNumber = '#FFFFFF',
+				-- },
+
+				-- Override highlight groups (see ./lua/vscode/theme.lua)
+				-- group_overrides = {
+				--   -- this supports the same val table as vim.api.nvim_set_hl
+				--   -- use colors from this colorscheme by requiring vscode.colors!
+				--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+				-- },
+			})
+			vim.cmd("colorscheme vscode")
+		end,
 	},
 
 	{
@@ -1298,60 +1301,109 @@ require("lazy").setup({
 	},
 
 	{ "sainnhe/edge" },
+	-- {
+	-- 	"mofiqul/dracula.nvim",
+	-- 	priority = 1000,
+	-- 	init = function()
+	-- 		-- default options:
+	-- 		require("dracula").setup({
+	-- 			-- customize dracula color palette based on vs code configuration
+	-- 			colors = {
+	-- 				bg = "#0f172a", -- editor.background
+	-- 				fg = "#cbd6e8", -- editorcursor.foreground
+	-- 				selection = "#44475a", -- editor.selectionbackground (fallback to default if not specified in vs code config)
+	-- 				comment = "#6272a4", -- editorlinenumber.foreground (use vs code's comment style)
+	-- 				red = "#ff5555", -- match terminal.ansired
+	-- 				orange = "#ffb86c", -- add if needed (not in vs code config explicitly)
+	-- 				yellow = "#f1fa8c", -- match terminal.ansiyellow
+	-- 				green = "#50fa7b", -- match terminal.ansigreen
+	-- 				purple = "#bd93f9", -- match terminal.ansiblue
+	-- 				cyan = "#8be9fd", -- match terminal.ansicyan
+	-- 				pink = "#ff79c6", -- match terminal.ansimagenta
+	-- 				bright_red = "#ff6e6e", -- match terminal.ansibrightred
+	-- 				bright_green = "#69ff94", -- match terminal.ansibrightgreen
+	-- 				bright_yellow = "#ffffa5", -- match terminal.ansibrightyellow
+	-- 				bright_blue = "#d6acff", -- match terminal.ansibrightblue
+	-- 				bright_magenta = "#ff92df", -- match terminal.ansibrightmagenta
+	-- 				bright_cyan = "#a4ffff", -- match terminal.ansibrightcyan
+	-- 				bright_white = "#ffffff", -- match terminal.ansibrightwhite
+	-- 				menu = "#0b111e", -- sidebar.background
+	-- 				visual = "#3e4452", -- editor.linehighlightbackground
+	-- 				gutter_fg = "#4b5263", -- editorindentguide.background
+	-- 				nontext = "#3b4048", -- editorwhitespace.foreground
+	-- 				white = "#f8f8f2", -- editor.foreground (fallback to default if not specified in vs code config)
+	-- 				black = "#191a21", -- terminal.ansiblack (fallback to default if not specified in vs code config)
+	-- 			},
+	-- 			-- show the '~' characters after the end of buffers
+	-- 			show_end_of_buffer = true, -- default false
+	-- 			-- use transparent background
+	-- 			transparent_bg = false, -- set to true if you want a transparent background
+	-- 			-- set custom lualine background color
+	-- 			lualine_bg_color = "#44475a", -- statusbar.background
+	-- 			-- set italic comment
+	-- 			italic_comment = true, -- align with comment styling preferences
+	-- 			-- overrides (optional, use if specific elements need different customization)
+	-- 			overrides = {},
+	-- 		})
+	--
+	-- 		vim.cmd("colorscheme dracula")
+	--
+	-- 		vim.cmd.hi("comment gui=none")
+	-- 	end,
+	-- },
 
 	{
 		"sainnhe/gruvbox-material",
-		priority = 1000,
-		init = function()
-			-- vim.g.gruvbox_material_disable_italic_comment = 1
-			vim.g.gruvbox_material_diagnostic_text_highlight = 1
-			vim.g.gruvbox_material_diagnostic_line_highlight = 1
-			vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
-			vim.g.gruvbox_material_transparent_background = 1
-			vim.g.gruvbox_material_background = "hard"
-			-- vim.g.gruvbox_material_foreground = 'original'
-			-- vim.g.gruvbox_material_dim_inactive_windows = 1
-			vim.cmd.colorscheme("gruvbox-material")
-
-			-- You can configure highlights by doing something like:
-			vim.cmd.hi("Comment gui=none")
-		end,
+		-- priority = 1000,
+		-- init = function()
+		-- 	-- vim.g.gruvbox_material_disable_italic_comment = 1
+		-- 	vim.g.gruvbox_material_diagnostic_text_highlight = 1
+		-- 	vim.g.gruvbox_material_diagnostic_line_highlight = 1
+		-- 	vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
+		-- 	vim.g.gruvbox_material_transparent_background = 1
+		-- 	vim.g.gruvbox_material_background = "hard"
+		-- 	-- vim.g.gruvbox_material_foreground = 'original'
+		-- 	-- vim.g.gruvbox_material_dim_inactive_windows = 1
+		-- 	vim.cmd.colorscheme("gruvbox-material")
+		--
+		-- 	-- you can configure highlights by doing something like:
+		-- 	vim.cmd.hi("comment gui=none")
+		-- end,
 	},
 
-	-- Highlight todo, notes, etc in comments
+	-- highlight todo, notes, etc in comments
 	{
 		"folke/todo-comments.nvim",
-		event = "VimEnter",
+		event = "vimenter",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
 	},
 
-	-- TS-ERROR-TRANSLATER
+	-- ts-error-translater
 	{ "dmmulroy/ts-error-translator.nvim" },
-	-- COPILOT
+	-- copilot
 	{ "github/copilot.vim" },
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		branch = "canary",
 		dependencies = {
-			{ "github/copilot.vim" },
+			{ "github/copilot.vim" }, -- or zbirenbaum/copilot.lua
 			{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
 		},
+		build = "make tiktoken", -- Only on MacOS or Linux
 		opts = {
-			debug = false, -- Enable debugging
-			-- See Configuration section for rest
+			-- See Configuration section for options
 		},
-		config = function()
-			require("CopilotChat").setup()
-			vim.keymap.set("n", "<leader>tc", "<CMD>CopilotChatToggle<CR>", { desc = "[T]oggle [C]opilot Chat" })
-		end,
+		-- config = function()
+		-- 	require("copilotchat").setup()
+		-- 	vim.keymap.set("n", "<leader>tc", "<cmd>copilotchattoggle<cr>", { desc = "[t]oggle [c]opilot chat" })
+		-- end,
 		-- See Commands section for default commands if you want to lazy load on them
 	},
-	-- LAZYGIT
+	-- lazygit
 	{
 		"kdheepak/lazygit.nvim",
 		config = function()
-			vim.keymap.set("n", "<leader>tg", "<CMD>LazyGit<CR>", { desc = "[T]oggle LazyGit Open" })
+			vim.keymap.set("n", "<leader>tg", "<cmd>LazyGit<cr>", { desc = "[t]oggle lazygit open" })
 		end,
 	},
 	{
@@ -1360,12 +1412,12 @@ require("lazy").setup({
 			use_icons = false,
 		},
 		config = function()
-			vim.keymap.set("n", "<leader>td", "<CMD>DiffviewOpen<CR>", { desc = "[T]oggle [G]it Open" })
-			vim.keymap.set("n", "<leader>tx", "<CMD>DiffviewClose<CR>", { desc = "[T]oggle [G]it Close" })
+			vim.keymap.set("n", "<leader>td", "<cmd>diffviewopen<cr>", { desc = "[t]oggle [g]it open" })
+			vim.keymap.set("n", "<leader>tx", "<cmd>diffviewclose<cr>", { desc = "[t]oggle [g]it close" })
 		end,
 	},
 
-	-- TROUBLE
+	-- trouble
 	{
 		"folke/trouble.nvim",
 		opts = {}, -- for default options, refer to the configuration section for custom setup.
@@ -1373,52 +1425,52 @@ require("lazy").setup({
 		keys = {
 			{
 				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
+				"<cmd>trouble diagnostics toggle<cr>",
+				desc = "diagnostics (trouble)",
 			},
 			-- {
-			--   '<leader>xX',
-			--   '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-			--   desc = 'Buffer Diagnostics (Trouble)',
+			--   '<leader>xx',
+			--   '<cmd>trouble diagnostics toggle filter.buf=0<cr>',
+			--   desc = 'buffer diagnostics (trouble)',
 			-- },
 			-- {
 			--   '<leader>cs',
-			--   '<cmd>Trouble symbols toggle focus=false<cr>',
-			--   desc = 'Symbols (Trouble)',
+			--   '<cmd>trouble symbols toggle focus=false<cr>',
+			--   desc = 'symbols (trouble)',
 			-- },
 			-- {
 			--   '<leader>cl',
-			--   '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
-			--   desc = 'LSP Definitions / references / ... (Trouble)',
+			--   '<cmd>trouble lsp toggle focus=false win.position=right<cr>',
+			--   desc = 'lsp definitions / references / ... (trouble)',
 			-- },
 			-- {
-			--   '<leader>xL',
-			--   '<cmd>Trouble loclist toggle<cr>',
-			--   desc = 'Location List (Trouble)',
+			--   '<leader>xl',
+			--   '<cmd>trouble loclist toggle<cr>',
+			--   desc = 'location list (trouble)',
 			-- },
 			-- {
-			--   '<leader>xQ',
-			--   '<cmd>Trouble qflist toggle<cr>',
-			--   desc = 'Quickfix List (Trouble)',
+			--   '<leader>xq',
+			--   '<cmd>trouble qflist toggle<cr>',
+			--   desc = 'quickfix list (trouble)',
 			-- },
 		},
 	},
 
-	-- PRETTIER
+	-- prettier
 	{
-		"MunifTanjim/prettier.nvim",
+		"muniftanjim/prettier.nvim",
 		dependencies = {
 			{ "jose-elias-alvarez/null-ls.nvim" },
 		},
 
 		init = function()
-			vim.keymap.set("n", "<leader>fP", "<CMD>Prettier<CR>", { desc = "Format with Prettier" })
+			vim.keymap.set("n", "<leader>fp", "<cmd>prettier<cr>", { desc = "format with prettier" })
 		end,
 	},
 
-	-- HARPOON 2
+	-- harpoon 2
 	{
-		"ThePrimeagen/harpoon",
+		"theprimeagen/harpoon",
 		branch = "harpoon2",
 		opts = {
 			menu = {
@@ -1431,11 +1483,11 @@ require("lazy").setup({
 		keys = function()
 			local keys = {
 				{
-					"<leader>H",
+					"<leader>h",
 					function()
 						require("harpoon"):list():add()
 					end,
-					desc = "Harpoon File",
+					desc = "harpoon file",
 				},
 				{
 					"<leader>h",
@@ -1443,7 +1495,7 @@ require("lazy").setup({
 						local harpoon = require("harpoon")
 						harpoon.ui:toggle_quick_menu(harpoon:list())
 					end,
-					desc = "Harpoon Quick Menu",
+					desc = "harpoon quick menu",
 				},
 			}
 
@@ -1453,17 +1505,17 @@ require("lazy").setup({
 					function()
 						require("harpoon"):list():select(i)
 					end,
-					desc = "Harpoon to File " .. i,
+					desc = "harpoon to file " .. i,
 				})
 			end
 			return keys
 		end,
 	},
 
-	-- MARKDOWN
+	-- markdown
 	{
-		"MeanderingProgrammer/markdown.nvim",
-		name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+		"meanderingprogrammer/markdown.nvim",
+		name = "render-markdown", -- only needed if you have another plugin named markdown.nvim
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
 		-- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
@@ -1480,7 +1532,7 @@ require("lazy").setup({
 
 			-- recommended settings from nvim-tree documentation
 			vim.g.loaded_netrw = 1
-			vim.g.loaded_netrwPlugin = 1
+			vim.g.loaded_netrwplugin = 1
 
 			nvimtree.setup({
 				view = {
@@ -1512,7 +1564,7 @@ require("lazy").setup({
 					},
 				},
 				filters = {
-					custom = { ".DS_Store" },
+					custom = { ".ds_store" },
 				},
 				git = {
 					ignore = false,
@@ -1525,15 +1577,15 @@ require("lazy").setup({
 			-- set keymaps
 			local keymap = vim.keymap -- for conciseness
 
-			keymap.set("n", "<leader>ew", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
+			keymap.set("n", "<leader>ew", "<cmd>nvimtreetoggle<cr>", { desc = "toggle file explorer" }) -- toggle file explorer
 			keymap.set(
 				"n",
 				"<leader>ef",
-				"<cmd>NvimTreeFindFileToggle<CR>",
-				{ desc = "Toggle file explorer on current file" }
+				"<cmd>nvimtreefindfiletoggle<cr>",
+				{ desc = "toggle file explorer on current file" }
 			) -- toggle file explorer on current file
-			keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
-			keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+			keymap.set("n", "<leader>ec", "<cmd>nvimtreecollapse<cr>", { desc = "collapse file explorer" }) -- collapse file explorer
+			keymap.set("n", "<leader>er", "<cmd>nvimtreerefresh<cr>", { desc = "refresh file explorer" }) -- refresh file explorer
 		end,
 	},
 	{
@@ -1548,7 +1600,7 @@ require("lazy").setup({
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+		event = { "bufreadpre", "bufnewfile" },
 		main = "ibl",
 		opts = {
 			indent = { char = "┊" },
@@ -1556,16 +1608,16 @@ require("lazy").setup({
 	},
 	{
 		"stevearc/dressing.nvim",
-		event = "VeryLazy",
+		opts = {},
 	},
 	{
 		"goolord/alpha-nvim",
-		event = "VimEnter",
+		event = "vimenter",
 		config = function()
 			local alpha = require("alpha")
 			local dashboard = require("alpha.themes.dashboard")
 
-			-- Set header
+			-- set header
 			dashboard.section.header.val = {
 				"                                                     ",
 				"  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
@@ -1577,23 +1629,23 @@ require("lazy").setup({
 				"                                                     ",
 			}
 
-			-- Set menu
+			-- set menu
 			dashboard.section.buttons.val = {
-				dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
-				dashboard.button("SPC ew", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
-				dashboard.button("SPC sf", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
-				dashboard.button("SPC sg", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
-				dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
+				dashboard.button("e", "  > new file", "<cmd>ene<cr>"),
+				dashboard.button("spc ew", "  > toggle file explorer", "<cmd>nvimtreetoggle<cr>"),
+				dashboard.button("spc sf", "󰱼  > find file", "<cmd>telescope find_files<cr>"),
+				dashboard.button("spc sg", "  > find word", "<cmd>telescope live_grep<cr>"),
+				dashboard.button("q", "  > quit nvim", "<cmd>qa<cr>"),
 			}
 
-			-- Send config to alpha
+			-- send config to alpha
 			alpha.setup(dashboard.opts)
 
-			-- Disable folding on alpha buffer
-			vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
+			-- disable folding on alpha buffer
+			vim.cmd([[autocmd filetype alpha setlocal nofoldenable]])
 		end,
 	},
-	-- LUALINE
+	-- lualine
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1609,11 +1661,11 @@ require("lazy").setup({
 		--   local lazy_status = require 'lazy.status' -- to configure lazy pending updates count
 		--
 		--   local colors = {
-		--     blue = '#65D1FF',
-		--     green = '#3EFFDC',
-		--     violet = '#FF61EF',
-		--     yellow = '#FFDA7B',
-		--     red = '#FF4A4A',
+		--     blue = '#65d1ff',
+		--     green = '#3effdc',
+		--     violet = '#ff61ef',
+		--     yellow = '#ffda7b',
+		--     red = '#ff4a4a',
 		--     fg = '#c3ccdc',
 		--     bg = '#112638',
 		--     inactive_bg = '#2c3043',
@@ -1675,10 +1727,10 @@ require("lazy").setup({
 	{
 		"szw/vim-maximizer",
 		keys = {
-			{ "<leader>sm", "<cmd>MaximizerToggle<CR>", desc = "Maximize/minimize a split" },
+			{ "<leader>sm", "<cmd>maximizertoggle<cr>", desc = "maximize/minimize a split" },
 		},
 	},
-	-- OIL
+	-- oil
 	-- {
 	--   'stevearc/oil.nvim',
 	--   dependencies = { 'nvim-tree/nvim-web-devicons' },
@@ -1686,75 +1738,75 @@ require("lazy").setup({
 	--     require('oil').setup {
 	--       columns = { 'icon' },
 	--       keymaps = {
-	--         ['<C-h>'] = false,
-	--         ['<M-h>'] = 'actions.select_split',
+	--         ['<c-h>'] = false,
+	--         ['<m-h>'] = 'actions.select_split',
 	--       },
 	--       view_options = {
 	--         show_hidden = true,
 	--       },
 	--     }
 	--
-	--     -- Open parent directory in current window
-	--     vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
+	--     -- open parent directory in current window
+	--     vim.keymap.set('n', '-', '<cmd>oil<cr>', { desc = 'open parent directory' })
 	--
-	--     -- Open parent directory in floating window
+	--     -- open parent directory in floating window
 	--     vim.keymap.set('n', '<space>-', require('oil').toggle_float)
 	--   end,
 	-- },
 
-	{ -- Collection of various small independent plugins/modules
+	{ -- collection of various small independent plugins/modules
 		"echasnovski/mini.nvim",
 		config = function()
-			-- Better Around/Inside textobjects
+			-- better around/inside textobjects
 			--
-			-- Examples:
-			--  - va)  - [V]isually select [A]round [)]paren
-			--  - yinq - [Y]ank [I]nside [N]ext [']quote
-			--  - ci'  - [C]hange [I]nside [']quote
+			-- examples:
+			--  - va)  - [v]isually select [a]round [)]paren
+			--  - yinq - [y]ank [i]nside [n]ext [']quote
+			--  - ci'  - [c]hange [i]nside [']quote
 			require("mini.ai").setup({ n_lines = 500 })
 
-			-- Add/delete/replace surroundings (brackets, quotes, etc.)
+			-- add/delete/replace surroundings (brackets, quotes, etc.)
 			--
-			-- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-			-- - sd'   - [S]urround [D]elete [']quotes
-			-- - sr)'  - [S]urround [R]eplace [)] [']
+			-- - saiw) - [s]urround [a]dd [i]nner [w]ord [)]paren
+			-- - sd'   - [s]urround [d]elete [']quotes
+			-- - sr)'  - [s]urround [r]eplace [)] [']
 			require("mini.surround").setup()
 			require("mini.cursorword").setup()
 
-			-- Simple and easy statusline.
-			--  You could remove this setup call if you don't like it,
+			-- simple and easy statusline.
+			--  you could remove this setup call if you don't like it,
 			--  and try some other statusline plugin
 			-- local statusline = require 'mini.statusline'
-			-- -- set use_icons to true if you have a Nerd Font
+			-- -- set use_icons to true if you have a nerd font
 			-- statusline.setup { use_icons = vim.g.have_nerd_font }
 			--
-			-- -- You can configure sections in the statusline by overriding their
-			-- -- default behavior. For example, here we set the section for
-			-- -- cursor location to LINE:COLUMN
+			-- -- you can configure sections in the statusline by overriding their
+			-- -- default behavior. for example, here we set the section for
+			-- -- cursor location to line:column
 			-- ---@diagnostic disable-next-line: duplicate-set-field
 			-- statusline.section_location = function()
 			--   return '%2l:%-2v'
 			-- end
 			--
 			-- ... and there is more!
-			--  Check out: https://github.com/echasnovski/mini.nvim
+			--  check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
-	{ -- Highlight, edit, and navigate code
+	{ -- highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
+		build = ":tsupdate",
 		opts = {
 			ensure_installed = { "bash", "c", "diff", "html", "lua", "luadoc", "markdown", "vim", "vimdoc" },
-			-- Autoinstall languages that are not installed
+			-- autoinstall languages that are not installed
 			auto_install = true,
 			highlight = {
 				enable = true,
-				-- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-				--  If you are experiencing weird indenting issues, add the language to
+				-- some languages depend on vim's regex highlighting system (such as ruby) for indent rules.
+				--  if you are experiencing weird indenting issues, add the language to
 				--  the list of additional_vim_regex_highlighting and disabled languages for indent.
 				additional_vim_regex_highlighting = { "ruby" },
 				disable = function(_, buf)
-					local max_filesize = 100 * 1024 -- 100 KB
+					local max_filesize = 100 * 1024 -- 100 kb
 					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
 					if ok and stats and stats.size > max_filesize then
 						return true
@@ -1764,30 +1816,30 @@ require("lazy").setup({
 			indent = { enable = true, disable = { "ruby" } },
 		},
 		config = function(_, opts)
-			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+			-- [[ configure treesitter ]] see `:help nvim-treesitter`
 
-			-- Prefer git instead of curl in order to improve connectivity in some environments
+			-- prefer git instead of curl in order to improve connectivity in some environments
 			require("nvim-treesitter.install").prefer_git = true
 			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup(opts)
 
-			-- There are additional nvim-treesitter modules that you can use to interact
-			-- with nvim-treesitter. You should go explore a few and see what interests you:
+			-- there are additional nvim-treesitter modules that you can use to interact
+			-- with nvim-treesitter. you should go explore a few and see what interests you:
 			--
-			--    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-			--    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-			--    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+			--    - incremental selection: included, see `:help nvim-treesitter-incremental-selection-mod`
+			--    - show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+			--    - treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
 		end,
 	},
 
-	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
-	-- init.lua. If you want these files, they are in the repository, so you can just download them and
+	-- the following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
+	-- init.lua. if you want these files, they are in the repository, so you can just download them and
 	-- place them in the correct locations.
 
-	-- NOTE: Next step on your Neovim journey: Add/Configure additional plugins for Kickstart
+	-- note: next step on your neovim journey: add/configure additional plugins for kickstart
 	--
-	--  Here are some example plugins that I've included in the Kickstart repository.
-	--  Uncomment any of the lines below to enable them (you will need to restart nvim).
+	--  here are some example plugins that i've included in the kickstart repository.
+	--  uncomment any of the lines below to enable them (you will need to restart nvim).
 	--
 	-- require 'kickstart.plugins.debug',
 	-- require 'kickstart.plugins.indent_line',
