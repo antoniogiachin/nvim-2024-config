@@ -1,3 +1,7 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+vim.opt.guicursor = ""
 -- init.lua
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -49,10 +53,6 @@ require("lazy").setup("plugins", {
 -- vim.opt.wildmenu = true
 -- vim.opt.wildmode = "list:longest,list:full" -- don't insert, show options
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-vim.opt.guicursor = ""
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -184,8 +184,15 @@ vim.keymap.set("n", "<C-s>", "<cmd>:w<CR>")
 -- Quit with <jk>
 vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
 
--- Copilot chat toggle
-vim.keymap.set("n", "<leader>tc", "<cmd>CopilotChatToggle<cr>", { desc = "[t]oggle [c]opilot chat" })
+-- Tab keymaps
+vim.keymap.set("n", "<leader>to", "<cmd>tabnew<CR>", { desc = "Open new tab" }) -- open new tab
+vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Close current tab" }) -- close current tab
+vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
+vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
+vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
+
+
+
 
 -- AUTOCOMMANDS
 vim.api.nvim_create_autocmd("TextYankPost", {

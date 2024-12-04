@@ -34,7 +34,6 @@ return {
 			local chat = require("CopilotChat")
 			local actions = require("CopilotChat.actions")
 			local select = require("CopilotChat.select")
-			local integration = require("CopilotChat.integrations.fzflua")
 
 			chat.setup({
 				log_level = "info",
@@ -97,13 +96,6 @@ return {
 			vim.keymap.set({ "n" }, "<leader>ax", chat.reset, { desc = "AI Reset" })
 			vim.keymap.set({ "n" }, "<leader>as", chat.stop, { desc = "AI Stop" })
 			vim.keymap.set({ "n" }, "<leader>am", chat.select_model, { desc = "AI Model" })
-			vim.keymap.set({ "n", "v" }, "<leader>ap", function()
-				integration.pick(actions.prompt_actions(), {
-					fzf_tmux_opts = {
-						["-d"] = "45%",
-					},
-				})
-			end, { desc = "AI Prompts" })
 			vim.keymap.set({ "n", "v" }, "<leader>aq", function()
 				vim.ui.input({
 					prompt = "AI Question> ",

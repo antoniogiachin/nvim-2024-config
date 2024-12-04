@@ -24,11 +24,13 @@ return {
 			})
 
 			lspconfig.ts_ls.setup({
-				capabilities = {
-					document_formatting = false,
-					document_range_formatting = false,
-				},
+				on_attach = function(client, _)
+					client.server_capabilities.documentFormattingProvider = false
+					client.server_capabilities.documentRangeFormattingProvider = false
+				end,
 			})
+
+			lspconfig.eslint.setup({})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				desc = "LSP Actions",
