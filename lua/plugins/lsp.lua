@@ -31,6 +31,7 @@ return {
 			})
 
 			lspconfig.eslint.setup({})
+			lspconfig.lua_ls.setup({})
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				desc = "LSP Actions",

@@ -53,42 +53,42 @@ return {
 	-- 	end,
 	-- },
 
-	{
-		"Mofiqul/vscode.nvim",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
-		init = function()
-			require("vscode").setup({
-				-- Alternatively set style in setup
-				-- style = 'light'
-
-				-- Enable transparent background
-				transparent = true,
-
-				-- Enable italic comment
-				-- italic_comments = true,
-
-				-- Underline `@markup.link.*` variants
-				underline_links = true,
-
-				-- Disable nvim-tree background color
-				disable_nvimtree_bg = true,
-
-				-- Override colors (see ./lua/vscode/colors.lua)
-				-- color_overrides = {
-				--   vscLineNumber = '#FFFFFF',
-				-- },
-
-				-- Override highlight groups (see ./lua/vscode/theme.lua)
-				-- group_overrides = {
-				--   -- this supports the same val table as vim.api.nvim_set_hl
-				--   -- use colors from this colorscheme by requiring vscode.colors!
-				--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
-				-- },
-			})
-			vim.cmd("colorscheme vscode")
-		end,
-	},
+	-- {
+		-- "Mofiqul/vscode.nvim",
+		-- lazy = false, -- make sure we load this during startup if it is your main colorscheme
+		-- priority = 1000, -- make sure to load this before all the other start plugins
+		-- init = function()
+		-- 	require("vscode").setup({
+		-- 		-- Alternatively set style in setup
+		-- 		-- style = 'light'
+		--
+		-- 		-- Enable transparent background
+		-- 		transparent = true,
+		--
+		-- 		-- Enable italic comment
+		-- 		-- italic_comments = true,
+		--
+		-- 		-- Underline `@markup.link.*` variants
+		-- 		underline_links = true,
+		--
+		-- 		-- Disable nvim-tree background color
+		-- 		disable_nvimtree_bg = true,
+		--
+		-- 		-- Override colors (see ./lua/vscode/colors.lua)
+		-- 		-- color_overrides = {
+		-- 		--   vscLineNumber = '#FFFFFF',
+		-- 		-- },
+		--
+		-- 		-- Override highlight groups (see ./lua/vscode/theme.lua)
+		-- 		-- group_overrides = {
+		-- 		--   -- this supports the same val table as vim.api.nvim_set_hl
+		-- 		--   -- use colors from this colorscheme by requiring vscode.colors!
+		-- 		--   Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+		-- 		-- },
+		-- 	})
+		-- 	vim.cmd("colorscheme vscode")
+		-- end,
+	-- },
 
 	{
 		"rose-pine/neovim",
@@ -112,6 +112,7 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
+		-- lazy=false,
 		-- priority = 1000,
 		-- init = function()
 		--   -- Default options:
@@ -149,7 +150,26 @@ return {
 	{ "sainnhe/edge" },
 	{
 		"mofiqul/dracula.nvim",
-		-- priority = 1000,
+		lazy = false,
+		priority = 1000,
+		config = function () 
+			local dracula = require("dracula")
+			dracula.setup({
+				-- show_end_of_buffer = true, -- default false
+				-- use transparent background
+				transparent_bg = false, -- default false
+				-- set custom lualine background color
+				-- set italic comment
+				-- italic_comment = true, -- default false
+				-- overrides the default highlights with table see `:h synIDattr`
+			})
+
+
+
+			vim.cmd("colorscheme dracula")
+
+			vim.cmd.hi("comment gui=none")
+		end
 		-- init = function()
 		-- 	-- default options:
 		-- 	require("dracula").setup({
