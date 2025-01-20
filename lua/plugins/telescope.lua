@@ -60,11 +60,11 @@ return {
 			},
 			pickers = {
 				live_grep = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 
 				grep_string = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 
 				find_files = {
@@ -83,30 +83,30 @@ return {
 				},
 
 				lsp_dynamic_workspace_symbols = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 
 				lsp_document_symbols = {
-					theme = "dropdown",
+					theme = "ivy",
 				},
 
 				lsp_references = {
-					theme = "dropdown",
+					theme = "ivy",
 					initial_mode = "normal",
 				},
 
 				lsp_definitions = {
-					theme = "dropdown",
+					theme = "ivy",
 					initial_mode = "normal",
 				},
 
 				lsp_declarations = {
-					theme = "dropdown",
+					theme = "ivy",
 					initial_mode = "normal",
 				},
 
 				lsp_implementations = {
-					theme = "dropdown",
+					theme = "ivy",
 					initial_mode = "normal",
 				},
 			},

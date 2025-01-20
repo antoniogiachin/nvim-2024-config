@@ -53,7 +53,6 @@ require("lazy").setup("plugins", {
 -- vim.opt.wildmenu = true
 -- vim.opt.wildmode = "list:longest,list:full" -- don't insert, show options
 
-
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
@@ -190,9 +189,12 @@ vim.keymap.set("n", "<leader>tq", "<cmd>tabclose<CR>", { desc = "Close current t
 vim.keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 vim.keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 vim.keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
-
-
-
+vim.keymap.set("n", "<leader>bD", "<cmd>:q!<CR>", { desc = "Force Close Buffer" }) --  Force Close Buffer
+-- Split keymaps
+vim.keymap.set("n", "<leader>bv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
+vim.keymap.set("n", "<leader>bh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
+vim.keymap.set("n", "<leader>be", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
+vim.keymap.set("n", "<leader>bx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
 -- AUTOCOMMANDS
 vim.api.nvim_create_autocmd("TextYankPost", {

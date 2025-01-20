@@ -6,13 +6,25 @@ return {
 			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
 			"b0o/schemastore.nvim",
 			"williamboman/mason-lspconfig.nvim",
+			"saghen/blink.cmp",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			"saghen/blink.cmp",
 
 			-- Useful status updates for LSP.
 			{ "j-hui/fidget.nvim", opts = {} },
 		},
-		config = function()
+		opts = {
+			servers = {
+				lua_ls = {},
+				-- ts_ls = {},
+				cssls = {},
+				eslint = {},
+				sourcekit = {},
+			},
+		},
+		config = function(_, opts)
 			local lspconfig = require("lspconfig")
+
 			lspconfig.sourcekit.setup({
 				capabilities = {
 					workspace = {
@@ -23,15 +35,35 @@ return {
 				},
 			})
 
-			lspconfig.ts_ls.setup({
-				on_attach = function(client, _)
-					client.server_capabilities.documentFormattingProvider = false
-					client.server_capabilities.documentRangeFormattingProvider = false
-				end,
-			})
+			-- lspconfig.ts_ls.setup({
+			-- 	on_attach = function(client, _)
+			-- 		client.server_capabilities.documentFormattingProvider = false
+			-- 		client.server_capabilities.documentRangeFormattingProvider = false
+			-- 	end,
+			-- })
+
+			lspconfig.cssls.setup({})
 
 			lspconfig.eslint.setup({})
-			lspconfig.lua_ls.setup({})
+
+			lspconfig.emmet_ls.setup({})
+
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = {
+							globals = { "vim" },
+						},
+					},
+				},
+			})
+
+			for server, config in pairs(opts.servers) do
+				-- passing config.capabilities to blink.cmp merges with the capabilities in your
+				-- `opts[server].capabilities, if you've defined it
+				config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+				lspconfig[server].setup(config)
+			end
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				desc = "LSP Actions",
@@ -84,6 +116,20 @@ return {
 					-- WARN: This is not Goto Definition, this is Goto Declaration.
 					--  For example, in C this would take you to the header.
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+				end,
+			})
+		end,
+	},
+
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		opts = {},
+		config = function()
+			require("typescript-tools").setup({
+				on_attach = function(client)
+					client.server_capabilities.documentFormattingProvider = false
+					client.server_capabilities.documentRangeFormattingProvider = false
 				end,
 			})
 		end,

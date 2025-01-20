@@ -1,6 +1,6 @@
 return {
 	-- AUTOFORMAT
-	{ 
+	{
 		"stevearc/conform.nvim",
 		lazy = false,
 		keys = {
