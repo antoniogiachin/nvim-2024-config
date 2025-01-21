@@ -168,13 +168,13 @@ return {
 		},
 
 		-- PICKER
-		{
-			"<leader>,",
-			function()
-				Snacks.picker.buffers()
-			end,
-			desc = "Buffers",
-		},
+		-- {
+		-- 	"<leader>,",
+		-- 	function()
+		-- 		Snacks.picker.buffers()
+		-- 	end,
+		-- 	desc = "Buffers",
+		-- },
 		{
 			"<leader>/",
 			function()
@@ -182,13 +182,13 @@ return {
 			end,
 			desc = "Grep",
 		},
-		{
-			"<leader>:",
-			function()
-				Snacks.picker.command_history()
-			end,
-			desc = "Command History",
-		},
+		-- {
+		-- 	"<leader>:",
+		-- 	function()
+		-- 		Snacks.picker.command_history()
+		-- 	end,
+		-- 	desc = "Command History",
+		-- },
 		{
 			"<leader><space>",
 			function()
