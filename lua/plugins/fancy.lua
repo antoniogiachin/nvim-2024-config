@@ -70,9 +70,9 @@ return {
 			indent = { char = "┊" },
 		},
 	},
-	{
-		"stevearc/dressing.nvim",
-		event = "VeryLazy",
-		opts = {},
-	},
+	-- {
+	-- 	"stevearc/dressing.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {},
+	-- },
 }

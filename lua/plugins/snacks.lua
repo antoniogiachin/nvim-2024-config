@@ -3,6 +3,8 @@ return {
 	priority = 1000,
 	lazy = false,
 	opts = {
+		input = { enabled = true },
+		scope = { enabled = true },
 		picker = { enabled = true },
 		bigfile = { enabled = true },
 		terminal = {
@@ -44,8 +46,6 @@ return {
 		},
 		-- dashboard = { enabled = true },
 		indent = { enabled = true },
-		git = { enabled = true },
-		-- input = { enabled = true },
 		bufdelete = { enabled = true },
 		notifier = {
 			enabled = true,
@@ -53,22 +53,25 @@ return {
 		},
 		quickfile = { enabled = true },
 		words = { enabled = true },
+		win = { enabled = true },
+		zen = { enabled = true },
+		git = { enabled = true },
 	},
 	keys = {
-		-- {
-		-- 	"<leader>z",
-		-- 	function()
-		-- 		Snacks.zen()
-		-- 	end,
-		-- 	desc = "Toggle Zen Mode",
-		-- },
-		-- {
-		-- 	"<leader>Z",
-		-- 	function()
-		-- 		Snacks.zen.zoom()
-		-- 	end,
-		-- 	desc = "Toggle Zoom",
-		-- },
+		{
+			"<leader>z",
+			function()
+				Snacks.zen()
+			end,
+			desc = "Toggle Zen Mode",
+		},
+		{
+			"<leader>Z",
+			function()
+				Snacks.zen.zoom()
+			end,
+			desc = "Toggle Zoom",
+		},
 		-- {
 		-- 	"<leader>.",
 		-- 	function()
@@ -338,6 +341,7 @@ return {
 			end,
 			desc = "Keymaps",
 		},
+
 		{
 			"<leader>sl",
 			function()
